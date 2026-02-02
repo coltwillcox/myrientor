@@ -70,7 +70,8 @@ type SyncStats struct {
 	filesDownloaded  int
 	filesDeleted     int
 	filesSkipped     int
-	bytesDownloaded  int64
+	bytesDownloaded  int64                   // Completed downloads total
+	bytesInProgress  [maxConcurrent]int64    // Current progress per slot
 	totalBytes       int64
 	startTime        time.Time
 	activities       [maxConcurrent]string // Track current activity in each slot
@@ -113,6 +114,31 @@ func (s *SyncStats) AddTotalBytes(bytes int64) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.totalBytes += bytes
+}
+
+func (s *SyncStats) SetSlotProgress(slot int, bytes int64) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if slot >= 0 && slot < maxConcurrent {
+		s.bytesInProgress[slot] = bytes
+	}
+}
+
+func (s *SyncStats) ClearSlotProgress(slot int) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if slot >= 0 && slot < maxConcurrent {
+		s.bytesInProgress[slot] = 0
+	}
+}
+
+func (s *SyncStats) getTotalBytesTransferred() int64 {
+	// Must be called with lock held
+	total := s.bytesDownloaded
+	for i := range maxConcurrent {
+		total += s.bytesInProgress[i]
+	}
+	return total
 }
 
 func (s *SyncStats) SetActivity(slot int, message string) {
@@ -164,17 +190,18 @@ func (s *SyncStats) Print() {
 	// Remember how many lines we printed for next time
 	s.lastPrintedLines = linesToPrint
 
-	// Calculate stats
+	// Calculate stats using real-time bytes (completed + in-progress)
+	totalTransferred := s.getTotalBytesTransferred()
 	elapsed := time.Since(s.startTime)
 	speed := int64(0)
 	if elapsed.Seconds() > 0 {
-		speed = int64(float64(s.bytesDownloaded) / elapsed.Seconds())
+		speed = int64(float64(totalTransferred) / elapsed.Seconds())
 	}
 
 	// Calculate percentage if total is known
 	progressStr := ""
 	if s.totalBytes > 0 {
-		percentage := float64(s.bytesDownloaded) / float64(s.totalBytes) * 100
+		percentage := float64(totalTransferred) / float64(s.totalBytes) * 100
 		progressStr = fmt.Sprintf(" (%.1f%%)", percentage)
 	}
 
@@ -195,7 +222,7 @@ func (s *SyncStats) Print() {
 		colorBold,
 		colorReset,
 		colorCyan,
-		formatBytes(s.bytesDownloaded),
+		formatBytes(totalTransferred),
 		colorReset,
 		formatBytesIfKnown(s.totalBytes),
 		progressStr,
@@ -426,6 +453,7 @@ func syncDirectory(device Device, baseURL string) error {
 			if needsDownload {
 				// Progress callback for this file
 				onProgress := func(written, total int64) {
+					stats.SetSlotProgress(activitySlot, written)
 					if total > 0 {
 						pct := float64(written) / float64(total) * 100
 						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%.0f%% %s/%s%s",
@@ -444,6 +472,7 @@ func syncDirectory(device Device, baseURL string) error {
 				}
 
 				bytes, err := downloadFile(client, remoteFile, localFile, onProgress)
+				stats.ClearSlotProgress(activitySlot) // Clear in-progress bytes when done
 				if err != nil {
 					stats.ClearActivity(activitySlot)
 					fmt.Fprintf(os.Stderr, "\n%s✗ Error downloading %s: %v%s\n", colorRed, file.Name, err, colorReset)
