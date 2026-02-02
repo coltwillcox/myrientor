@@ -83,7 +83,7 @@ Edit `myrient-devices.json` to select your targets:
     {
       "remote_path": "files/No-Intro/Nintendo - Game Boy/",
       "sync": true,                          // << FLIP THIS SWITCH
-      "local_path": "/your/roms/gameboy/"    // << YOUR LOCAL VAULT
+      "local_path": "gb"                     // << YOUR LOCAL VAULT
     }
   ]
 }
