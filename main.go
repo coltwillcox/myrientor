@@ -47,6 +47,23 @@ type FileInfo struct {
 	Size int64
 }
 
+// ProgressWriter wraps an io.Writer and reports progress via callback
+type ProgressWriter struct {
+	writer     io.Writer
+	total      int64
+	written    int64
+	onProgress func(written, total int64)
+}
+
+func (pw *ProgressWriter) Write(p []byte) (int, error) {
+	n, err := pw.writer.Write(p)
+	pw.written += int64(n)
+	if pw.onProgress != nil {
+		pw.onProgress(pw.written, pw.total)
+	}
+	return n, err
+}
+
 type SyncStats struct {
 	mu               sync.Mutex
 	filesChecked     int
@@ -407,8 +424,26 @@ func syncDirectory(device Device, baseURL string) error {
 			}
 
 			if needsDownload {
-				stats.SetActivity(activitySlot, fmt.Sprintf("%s↓ Downloading:%s %s", colorCyan, colorReset, file.Name))
-				bytes, err := downloadFile(client, remoteFile, localFile)
+				// Progress callback for this file
+				onProgress := func(written, total int64) {
+					if total > 0 {
+						pct := float64(written) / float64(total) * 100
+						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%.0f%% %s/%s%s",
+							colorCyan, colorReset,
+							file.Name,
+							colorDim, pct,
+							formatBytes(written), formatBytes(total),
+							colorReset))
+					} else {
+						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%s%s",
+							colorCyan, colorReset,
+							file.Name,
+							colorDim, formatBytes(written),
+							colorReset))
+					}
+				}
+
+				bytes, err := downloadFile(client, remoteFile, localFile, onProgress)
 				if err != nil {
 					stats.ClearActivity(activitySlot)
 					fmt.Fprintf(os.Stderr, "\n%s✗ Error downloading %s: %v%s\n", colorRed, file.Name, err, colorReset)
@@ -419,7 +454,7 @@ func syncDirectory(device Device, baseURL string) error {
 					return
 				}
 				stats.IncrementDownloaded(bytes)
-				stats.SetActivity(activitySlot, fmt.Sprintf("%s✓ Downloaded:%s %s %s(%s)%s", colorGreen, colorReset, file.Name, colorDim, formatBytes(bytes), colorReset))
+				stats.SetActivity(activitySlot, fmt.Sprintf("%s✓%s %s %s(%s)%s", colorGreen, colorReset, file.Name, colorDim, formatBytes(bytes), colorReset))
 			} else {
 				stats.IncrementSkipped()
 				stats.ClearActivity(activitySlot)
@@ -680,7 +715,7 @@ func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, int
 	return false, 0, nil // File is up to date
 }
 
-func downloadFile(client *http.Client, fileURL, filepath string) (int64, error) {
+func downloadFile(client *http.Client, fileURL, filepath string, onProgress func(written, total int64)) (int64, error) {
 	// Create the file
 	out, err := os.Create(filepath)
 	if err != nil {
@@ -699,8 +734,18 @@ func downloadFile(client *http.Client, fileURL, filepath string) (int64, error) 
 		return 0, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
 	}
 
-	// Copy the content
-	bytes, err := io.Copy(out, resp.Body)
+	// Copy the content with progress tracking
+	var written int64
+	if onProgress != nil {
+		pw := &ProgressWriter{
+			writer:     out,
+			total:      resp.ContentLength,
+			onProgress: onProgress,
+		}
+		written, err = io.Copy(pw, resp.Body)
+	} else {
+		written, err = io.Copy(out, resp.Body)
+	}
 	if err != nil {
 		return 0, err
 	}
@@ -712,5 +757,5 @@ func downloadFile(client *http.Client, fileURL, filepath string) (int64, error) 
 		}
 	}
 
-	return bytes, nil
+	return written, nil
 }
