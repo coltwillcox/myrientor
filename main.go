@@ -48,15 +48,17 @@ type FileInfo struct {
 }
 
 type SyncStats struct {
-	mu              sync.Mutex
-	filesChecked    int
-	filesDownloaded int
-	filesDeleted    int
-	filesSkipped    int
-	bytesDownloaded int64
-	totalBytes      int64
-	startTime       time.Time
-	activities      [maxConcurrent]string // Track current activity in each slot
+	mu               sync.Mutex
+	filesChecked     int
+	filesDownloaded  int
+	filesDeleted     int
+	filesSkipped     int
+	bytesDownloaded  int64
+	totalBytes       int64
+	startTime        time.Time
+	activities       [maxConcurrent]string // Track current activity in each slot
+	activeSlots      int                   // Number of activity slots to display (min of maxConcurrent and file count)
+	lastPrintedLines int                   // Number of lines printed in last Print() call (for cursor positioning)
 }
 
 func (s *SyncStats) IncrementChecked() {
@@ -116,20 +118,34 @@ func (s *SyncStats) Print() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	// Move cursor up to overwrite previous lines (maxConcurrent activity lines + 3 stats lines)
-	for i := range maxConcurrent + 3 {
+	// Count how many active activity lines we have
+	activeCount := 0
+	for i := range s.activeSlots {
+		if s.activities[i] != "" {
+			activeCount++
+		}
+	}
+
+	// Calculate lines to print this time (activity lines + 3 stats lines)
+	linesToPrint := activeCount + 3
+
+	// Move cursor up to overwrite previous lines
+	for i := range s.lastPrintedLines {
 		if i > 0 {
 			fmt.Print("\033[A") // Move cursor up one line
 		}
 		fmt.Print("\r\033[K") // Clear entire line
 	}
 
-	// Print activity lines
-	for i := range maxConcurrent {
+	// Print only non-empty activity lines
+	for i := range s.activeSlots {
 		if s.activities[i] != "" {
 			fmt.Printf("%s\n", s.activities[i])
 		}
 	}
+
+	// Remember how many lines we printed for next time
+	s.lastPrintedLines = linesToPrint
 
 	// Calculate stats
 	elapsed := time.Since(s.startTime)
@@ -312,6 +328,12 @@ func syncDirectory(device Device, baseURL string) error {
 	// Set total bytes for progress tracking
 	stats.SetTotalBytes(totalSize)
 
+	// Set active slots to minimum of maxConcurrent and file count
+	stats.activeSlots = min(maxConcurrent, len(filesToSync))
+	if stats.activeSlots == 0 {
+		stats.activeSlots = 1 // At least 1 slot for stats display
+	}
+
 	// Clean up obsolete local files
 	if err := cleanupObsoleteFiles(device.LocalPath, remoteFileSet, stats); err != nil {
 		fmt.Fprintf(os.Stderr, "%sWarning: failed to cleanup obsolete files: %v%s\n", colorYellow, err, colorReset)
@@ -332,9 +354,11 @@ func syncDirectory(device Device, baseURL string) error {
 	stopStats := make(chan struct{})
 
 	// Print initial empty lines for activities and stats
-	for range maxConcurrent + 3 {
+	initialLines := stats.activeSlots + 3
+	for range initialLines {
 		fmt.Println()
 	}
+	stats.lastPrintedLines = initialLines
 
 	go func() {
 		ticker := time.NewTicker(1 * time.Second)
