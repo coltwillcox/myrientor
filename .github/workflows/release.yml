@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            ext: ""
+          - goos: linux
+            goarch: arm64
+            ext: ""
+          - goos: windows
+            goarch: amd64
+            ext: ".exe"
+          - goos: windows
+            goarch: arm64
+            ext: ".exe"
+          - goos: darwin
+            goarch: amd64
+            ext: ""
+          - goos: darwin
+            goarch: arm64
+            ext: ""
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          go build -ldflags="-s -w" -o myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} main.go
+
+      - name: Create archive (Unix)
+        if: matrix.goos != 'windows'
+        run: |
+          tar -czvf myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz \
+            myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} \
+            myrient-devices.json \
+            README.md \
+            LICENSE
+
+      - name: Create archive (Windows)
+        if: matrix.goos == 'windows'
+        run: |
+          zip myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.zip \
+            myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} \
+            myrient-devices.json \
+            README.md \
+            LICENSE
+
+      - name: Upload release asset (Unix)
+        if: matrix.goos != 'windows'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+
+      - name: Upload release asset (Windows)
+        if: matrix.goos == 'windows'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.zip
