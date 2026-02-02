@@ -17,6 +17,18 @@ import (
 const (
 	configFile    = "myrient-devices.json"
 	maxConcurrent = 2 // equivalent to --transfers 2
+
+	// ANSI color codes
+	colorReset   = "\033[0m"
+	colorRed     = "\033[31m"
+	colorGreen   = "\033[32m"
+	colorYellow  = "\033[33m"
+	colorBlue    = "\033[34m"
+	colorMagenta = "\033[35m"
+	colorCyan    = "\033[36m"
+	colorWhite   = "\033[37m"
+	colorBold    = "\033[1m"
+	colorDim     = "\033[2m"
 )
 
 type Device struct {
@@ -134,20 +146,36 @@ func (s *SyncStats) Print() {
 	}
 
 	// Print stats on separate lines
-	fmt.Printf("Files: %d checked, %d downloaded, %d skipped, %d deleted\n",
+	fmt.Printf("%sFiles:%s %d checked, %s%d downloaded%s, %d skipped, %s%d deleted%s\n",
+		colorBold,
+		colorReset,
 		s.filesChecked,
+		colorGreen,
 		s.filesDownloaded,
+		colorReset,
 		s.filesSkipped,
-		s.filesDeleted)
+		colorYellow,
+		s.filesDeleted,
+		colorReset)
 
-	fmt.Printf("Transfer: %s / %s%s @ %s/s\n",
+	fmt.Printf("%sTransfer:%s %s%s%s / %s%s @ %s%s/s%s\n",
+		colorBold,
+		colorReset,
+		colorCyan,
 		formatBytes(s.bytesDownloaded),
+		colorReset,
 		formatBytesIfKnown(s.totalBytes),
 		progressStr,
-		formatBytes(speed))
+		colorCyan,
+		formatBytes(speed),
+		colorReset)
 
-	fmt.Printf("Time: %s",
-		formatDuration(elapsed))
+	fmt.Printf("%sTime:%s %s%s%s",
+		colorBold,
+		colorReset,
+		colorBlue,
+		formatDuration(elapsed),
+		colorReset)
 }
 
 func formatBytesIfKnown(bytes int64) string {
@@ -190,7 +218,7 @@ func formatBytes(bytes int64) string {
 func main() {
 	config, err := readConfigFile(configFile)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "✗ Error reading config file: %v\n", err)
+		fmt.Fprintf(os.Stderr, "%s✗ Error reading config file: %v%s\n", colorRed, err, colorReset)
 		os.Exit(1)
 	}
 
@@ -201,24 +229,24 @@ func main() {
 		}
 	}
 
-	fmt.Printf("Starting sync of %d device(s) from %s\n", totalDevices, config.BaseURL)
-	fmt.Println("═══════════════════════════════════════════════════════════════════════")
+	fmt.Printf("%s%sStarting sync of %d device(s) from %s%s\n", colorBold, colorCyan, totalDevices, config.BaseURL, colorReset)
+	fmt.Printf("%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)
 
 	currentDevice := 0
 	for _, device := range config.Devices {
 		if device.Sync {
 			currentDevice++
-			fmt.Printf("\n[%d/%d] Syncing: %s\n", currentDevice, totalDevices, device.RemotePath)
-			fmt.Println("───────────────────────────────────────────────────────────────────────")
+			fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, currentDevice, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
+			fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
 
 			if err := syncDirectory(device, config.BaseURL); err != nil {
-				fmt.Fprintf(os.Stderr, "✗ Error syncing %s: %v\n", device.RemotePath, err)
+				fmt.Fprintf(os.Stderr, "%s✗ Error syncing %s: %v%s\n", colorRed, device.RemotePath, err, colorReset)
 			}
 		}
 	}
 
-	fmt.Println("\n═══════════════════════════════════════════════════════════════════════")
-	fmt.Println("✓ Sync(s) completed")
+	fmt.Printf("\n%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)
+	fmt.Printf("%s✓ Sync(s) completed%s\n", colorGreen, colorReset)
 }
 
 func readConfigFile(filename string) (*Config, error) {
@@ -286,7 +314,7 @@ func syncDirectory(device Device, baseURL string) error {
 
 	// Clean up obsolete local files
 	if err := cleanupObsoleteFiles(device.LocalPath, remoteFileSet, stats); err != nil {
-		fmt.Fprintf(os.Stderr, "Warning: failed to cleanup obsolete files: %v\n", err)
+		fmt.Fprintf(os.Stderr, "%sWarning: failed to cleanup obsolete files: %v%s\n", colorYellow, err, colorReset)
 	}
 
 	// Sync files with concurrency control
@@ -342,11 +370,11 @@ func syncDirectory(device Device, baseURL string) error {
 			localFile := filepath.Join(device.LocalPath, file.Name)
 
 			// Check if file needs downloading
-			stats.SetActivity(activitySlot, fmt.Sprintf("→ Checking: %s", file.Name))
+			stats.SetActivity(activitySlot, fmt.Sprintf("%s→ Checking:%s %s", colorBlue, colorReset, file.Name))
 			needsDownload, _, err := shouldDownload(client, remoteFile, localFile)
 			if err != nil {
 				stats.ClearActivity(activitySlot)
-				fmt.Fprintf(os.Stderr, "\n✗ Error checking %s: %v\n", file.Name, err)
+				fmt.Fprintf(os.Stderr, "\n%s✗ Error checking %s: %v%s\n", colorRed, file.Name, err, colorReset)
 				// Re-print activity lines after error
 				for i := 0; i < maxConcurrent; i++ {
 					fmt.Println()
@@ -355,11 +383,11 @@ func syncDirectory(device Device, baseURL string) error {
 			}
 
 			if needsDownload {
-				stats.SetActivity(activitySlot, fmt.Sprintf("↓ Downloading: %s", file.Name))
+				stats.SetActivity(activitySlot, fmt.Sprintf("%s↓ Downloading:%s %s", colorCyan, colorReset, file.Name))
 				bytes, err := downloadFile(client, remoteFile, localFile)
 				if err != nil {
 					stats.ClearActivity(activitySlot)
-					fmt.Fprintf(os.Stderr, "\n✗ Error downloading %s: %v\n", file.Name, err)
+					fmt.Fprintf(os.Stderr, "\n%s✗ Error downloading %s: %v%s\n", colorRed, file.Name, err, colorReset)
 					// Re-print activity lines after error
 					for i := 0; i < maxConcurrent; i++ {
 						fmt.Println()
@@ -367,7 +395,7 @@ func syncDirectory(device Device, baseURL string) error {
 					return
 				}
 				stats.IncrementDownloaded(bytes)
-				stats.SetActivity(activitySlot, fmt.Sprintf("✓ Downloaded: %s (%s)", file.Name, formatBytes(bytes)))
+				stats.SetActivity(activitySlot, fmt.Sprintf("%s✓ Downloaded:%s %s %s(%s)%s", colorGreen, colorReset, file.Name, colorDim, formatBytes(bytes), colorReset))
 			} else {
 				stats.IncrementSkipped()
 				stats.ClearActivity(activitySlot)
@@ -382,7 +410,7 @@ func syncDirectory(device Device, baseURL string) error {
 	stats.Print()
 	fmt.Println()
 
-	fmt.Printf("\n✓ Sync complete")
+	fmt.Printf("\n%s✓ Sync complete%s\n", colorGreen, colorReset)
 
 	return nil
 }
@@ -416,7 +444,7 @@ func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *
 		if !remoteFiles[filename] {
 			localFile := filepath.Join(localPath, filename)
 			if err := os.Remove(localFile); err != nil {
-				fmt.Fprintf(os.Stderr, "✗ Failed to remove: %s (%v)\n", filename, err)
+				fmt.Fprintf(os.Stderr, "%s✗ Failed to remove: %s (%v)%s\n", colorRed, filename, err, colorReset)
 			} else {
 				stats.IncrementDeleted()
 				deletedCount++
@@ -425,7 +453,7 @@ func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *
 	}
 
 	if deletedCount > 0 {
-		fmt.Printf("✓ Cleaned up %d obsolete file(s)\n", deletedCount)
+		fmt.Printf("%s✓ Cleaned up %d obsolete file(s)%s\n", colorYellow, deletedCount, colorReset)
 	}
 
 	return nil
