@@ -1,14 +1,14 @@
-```
-
-    ███╗   ███╗██╗   ██╗██████╗ ██╗███████╗███╗   ██╗████████╗ ██████╗ ██████╗
-    ████╗ ████║╚██╗ ██╔╝██╔══██╗██║██╔════╝████╗  ██║╚══██╔══╝██╔═══██╗██╔══██╗
-    ██╔████╔██║ ╚████╔╝ ██████╔╝██║█████╗  ██╔██╗ ██║   ██║   ██║   ██║██████╔╝
-    ██║╚██╔╝██║  ╚██╔╝  ██╔══██╗██║██╔══╝  ██║╚██╗██║   ██║   ██║   ██║██╔══██╗
-    ██║ ╚═╝ ██║   ██║   ██║  ██║██║███████╗██║ ╚████║   ██║   ╚██████╔╝██║  ██║
-    ╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
-
-          ░▒▓█ R O M   S Y N C   F R O M   T H E   F U T U R E   P A S T █▓▒░
-```
+<div align="center">
+<pre>
+███╗   ███╗██╗   ██╗██████╗ ██╗███████╗███╗   ██╗████████╗ ██████╗ ██████╗ 
+████╗ ████║╚██╗ ██╔╝██╔══██╗██║██╔════╝████╗  ██║╚══██╔══╝██╔═══██╗██╔══██╗
+██╔████╔██║ ╚████╔╝ ██████╔╝██║█████╗  ██╔██╗ ██║   ██║   ██║   ██║██████╔╝
+██║╚██╔╝██║  ╚██╔╝  ██╔══██╗██║██╔══╝  ██║╚██╗██║   ██║   ██║   ██║██╔══██╗
+██║ ╚═╝ ██║   ██║   ██║  ██║██║███████╗██║ ╚████║   ██║   ╚██████╔╝██║  ██║
+╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
+░▒▓█ R O M   S Y N C   F R O M   T H E   F U T U R E   P A S T █▓▒░
+</pre>
+</div>
 
 <p align="center">
   <img src="https://img.shields.io/badge/WRITTEN_IN-GO-00ADD8?style=for-the-badge&logo=go&logoColor=white" alt="Go">
@@ -19,13 +19,15 @@
 
 ---
 
-```
-    ╔══════════════════════════════════════════════════════════════════════╗
-    ║  >> INITIALIZING NEURAL LINK TO MYRIENT ARCHIVE...                   ║
-    ║  >> SCANNING 200+ ROM VAULTS...                                      ║
-    ║  >> READY TO JACK IN                                                 ║
-    ╚══════════════════════════════════════════════════════════════════════╝
-```
+<div align="center">
+<pre>
+╔═════════════════════════════════════════════════════════════════════════════╗
+║  >> INITIALIZING NEURAL LINK TO MYRIENT ARCHIVE...                          ║
+║  >> SCANNING 200+ ROM VAULTS...                                             ║
+║  >> READY TO JACK IN                                                        ║
+╚═════════════════════════════════════════════════════════════════════════════╝
+</pre>
+</div>
 
 ## `// WHAT_IS_THIS.exe`
 
@@ -33,21 +35,23 @@
 
 > *"In the neon-lit future of 2024, we still play games from the past."*
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                                                                             │
-│   ▀█▀ █▀▀ █▀▀ █ █   █▀ █▀█ █▀▀ █▀▀ █▀                                       │
-│    █  ██▄ █▄▄ █▀█   ▄█ █▀▀ ██▄ █▄▄ ▄█                                       │
-│                                                                             │
-│   ◤ Pure Go - No external dependencies, just raw power                      │
-│   ◤ Parallel Downloads - 2 concurrent transfers, maximum throughput         │
-│   ◤ Smart Sync - Only downloads what's changed (size + timestamp check)     │
-│   ◤ Auto Cleanup - Purges obsolete local files like digital dust            │
-│   ◤ Real-time Stats - Watch the bytes flow like rain on a neon sign         │
-│   ◤ 200+ Presets - MAME, No-Intro, arcade boards, vintage computers         │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+<div align="center">
+<pre>
+┌───────────────────────────────────────────────────────────────────────────┐
+│                                                                           │
+│   ▀█▀ █▀▀ █▀▀ █ █   █▀ █▀█ █▀▀ █▀▀ █▀                                     │
+│    █  ██▄ █▄▄ █▀█   ▄█ █▀▀ ██▄ █▄▄ ▄█                                     │
+│                                                                           │
+│   ◤ Pure Go - No external dependencies, just raw power                    │
+│   ◤ Parallel Downloads - 2 concurrent transfers, maximum throughput       │
+│   ◤ Smart Sync - Only downloads what's changed (size + timestamp check)   │
+│   ◤ Auto Cleanup - Purges obsolete local files like digital dust          │
+│   ◤ Real-time Stats - Watch the bytes flow like rain on a neon sign       │
+│   ◤ 200+ Presets - MAME, No-Intro, arcade boards, vintage computers       │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+</pre>
+</div>
 
 ## `// QUICK_START.sh`
 
@@ -86,17 +90,18 @@ Edit `myrient-devices.json` to select your targets:
 ```
 
 ### Available Vaults Include:
-
-```
-╭──────────────────────────────────────────────────────────────────╮
-│  ◈ MAME                    ◈ No-Intro Collections                │
-│  ◈ Atari (2600/5200/7800)  ◈ Nintendo (NES/SNES/N64/GB/GBA)      │
-│  ◈ Sega (Genesis/Saturn)   ◈ Sony PlayStation                    │
-│  ◈ Neo Geo                 ◈ PC Engine / TurboGrafx              │
-│  ◈ Commodore 64            ◈ Amiga                               │
-│  ◈ MSX                     ◈ And 200+ more...                    │
-╰──────────────────────────────────────────────────────────────────╯
-```
+<div align="center">
+<pre>
+╭───────────────────────────────────────────────────────────────╮
+│  ◈ MAME                    ◈ No-Intro Collections             │
+│  ◈ Atari (2600/5200/7800)  ◈ Nintendo (NES/SNES/N64/GB/GBA)   │
+│  ◈ Sega (Genesis/Saturn)   ◈ Sony PlayStation                 │
+│  ◈ Neo Geo                 ◈ PC Engine / TurboGrafx           │
+│  ◈ Commodore 64            ◈ Amiga                            │
+│  ◈ MSX                     ◈ And 200+ more...                 │
+╰───────────────────────────────────────────────────────────────╯
+</pre>
+</div>
 
 ## `// SYSTEM_OUTPUT.log`
 
@@ -120,30 +125,32 @@ Time: 1m23s
 
 ## `// ARCHITECTURE.dat`
 
-```
-                    ┌────────────────────────────────────┐
-                    │           MYRIENTOR CORE           │
-                    │         ══════════════════         │
-                    │                                    │
+<div align="center">
+<pre>
+                    ┌────────────────────────────────────┐                  
+                    │           MYRIENTOR CORE           │                  
+                    │         ══════════════════         │                  
+                    │                                    │                  
   ┌─────────┐       │  ┌─────────────┐  ┌─────────────┐  │       ┌─────────┐
   │ CONFIG  │──────▶│  │  DIRECTORY  │  │  SYNC       │  │──────▶│  LOCAL  │
-  │  JSON   │       │  │  PARSER     │  │  ENGINE     │  │       │  FILES  │
+  │ JSON    │       │  │  PARSER     │  │  ENGINE     │  │       │  FILES  │
   └─────────┘       │  └──────┬──────┘  └──────┬──────┘  │       └─────────┘
-                    │         │                │         │
-                    │         ▼                ▼         │
-  ┌─────────┐       │  ┌─────────────────────────────┐   │
-  │ MYRIENT │◀─────▶│  │     CONCURRENT DOWNLOADER   │   │
-  │ SERVER  │       │  │   ┌───────┐   ┌───────┐     │   │
-  └─────────┘       │  │   │ SLOT 1│   │ SLOT 2│     │   │
-                    │  │   └───────┘   └───────┘     │   │
-                    │  └─────────────────────────────┘   │
-                    │                                    │
-                    │  ┌─────────────────────────────┐   │
-                    │  │      STATS TRACKER          │   │
-                    │  │  ▓▓▓▓▓▓▓▓▓▓░░░░░ 67%        │   │
-                    │  └─────────────────────────────┘   │
-                    └────────────────────────────────────┘
-```
+                    │         │                │         │                  
+                    │         ▼                ▼         │                  
+  ┌─────────┐       │  ┌─────────────────────────────┐   │                  
+  │ MYRIENT │◀─────▶│  │    CONCURRENT DOWNLOADER    │   │                  
+  │ SERVER  │       │  │   ┌────────┐   ┌────────┐   │   │                  
+  └─────────┘       │  │   │ SLOT 1 │   │ SLOT 2 │   │   │                  
+                    │  │   └────────┘   └────────┘   │   │                  
+                    │  └─────────────────────────────┘   │                  
+                    │                                    │                  
+                    │  ┌─────────────────────────────┐   │                  
+                    │  │        STATS TRACKER        │   │                  
+                    │  │  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░ 67% │   │                  
+                    │  └─────────────────────────────┘   │                  
+                    └────────────────────────────────────┘                  
+</pre>
+</div>
 
 ## `// HOW_IT_WORKS.asm`
 
@@ -170,43 +177,49 @@ EXIT    0
 
 ## `// REQUIREMENTS.txt`
 
-```
+<div align="center">
+<pre>
 ╔═══════════════════════════════════════════════════════════════╗
 ║  • Go 1.22+  (or any version with range-over-int support)     ║
 ║  • Internet connection to the Myrient grid                    ║
 ║  • Sufficient disk space for your ROM collection              ║
 ║  • A love for retro gaming                                    ║
 ╚═══════════════════════════════════════════════════════════════╝
-```
+</pre>
+</div>
 
 ## `// LICENSE.nfo`
 
-```
-  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-  █                                                           █
-  █   MIT LICENSE - FREE AS IN FREEDOM                        █
-  █   Do whatever you want. Just don't blame me.              █
-  █                                                           █
-  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-```
+<div align="center">
+<pre>
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+█                                                           █
+█   MIT LICENSE - FREE AS IN FREEDOM                        █
+█   Do whatever you want. Just don't blame me.              █
+█                                                           █
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+</pre>
+</div>
 
 ---
 
-```
-                    ╔═══════════════════════════════════════╗
-                    ║                                       ║
-                    ║   "INSERT COIN TO CONTINUE"           ║
-                    ║                                       ║
-                    ║      ┌───┐  ┌───┐                     ║
-                    ║      │ 1 │  │ 2 │  PLAYERS            ║
-                    ║      └───┘  └───┘                     ║
-                    ║                                       ║
-                    ╚═══════════════════════════════════════╝
-
-        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-        ░  MYRIENTOR v1.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
-        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-```
+<div align="center">
+<pre>
+╔═══════════════════════════════════════╗
+║                                       ║
+║       "INSERT COIN TO CONTINUE"       ║
+║                                       ║
+║        ┌───┐  ┌───┐                   ║
+║        │ 1 │  │ 2 │  PLAYERS          ║
+║        └───┘  └───┘                   ║
+║                                       ║
+╚═══════════════════════════════════════╝
+<br>
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░  MYRIENTOR v0.0.1 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+</pre>
+</div>
 
 ---
 
