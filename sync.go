@@ -36,7 +36,7 @@ func (pw *ProgressWriter) Write(p []byte) (int, error) {
 	return n, err
 }
 
-func syncDirectory(device Device, baseURL string) error {
+func syncDirectory(device Device, baseURL string, errLog *ErrorLogger) error {
 	stats := &SyncStats{startTime: time.Now()}
 
 	// Client for quick operations (HEAD requests, directory listings)
@@ -108,8 +108,8 @@ func syncDirectory(device Device, baseURL string) error {
 	}
 
 	// Clean up obsolete local files
-	if err := cleanupObsoleteFiles(device.LocalPath, remoteFileSet, stats); err != nil {
-		fmt.Fprintf(os.Stderr, "%sWarning: failed to cleanup obsolete files: %v%s\n", colorYellow, err, colorReset)
+	if err := cleanupObsoleteFiles(device.LocalPath, remoteFileSet, stats, errLog); err != nil {
+		errLog.Log("Warning: failed to cleanup obsolete files in %s: %v", device.LocalPath, err)
 	}
 
 	// Sync files with concurrency control
@@ -171,11 +171,7 @@ func syncDirectory(device Device, baseURL string) error {
 			needsDownload, err := shouldDownload(quickClient, remoteFile, localFile)
 			if err != nil {
 				stats.ClearActivity(activitySlot)
-				fmt.Fprintf(os.Stderr, "\n%s✗ Error checking %s: %v%s\n", colorRed, file.Name, err, colorReset)
-				// Re-print activity lines after error
-				for i := 0; i < maxConcurrent; i++ {
-					fmt.Println()
-				}
+				errLog.Log("Error checking %s: %v", file.Name, err)
 				return
 			}
 
@@ -204,11 +200,7 @@ func syncDirectory(device Device, baseURL string) error {
 				stats.ClearSlotProgress(activitySlot) // Clear in-progress bytes when done
 				if err != nil {
 					stats.ClearActivity(activitySlot)
-					fmt.Fprintf(os.Stderr, "\n%s✗ Error downloading %s: %v%s\n", colorRed, file.Name, err, colorReset)
-					// Re-print activity lines after error
-					for i := 0; i < maxConcurrent; i++ {
-						fmt.Println()
-					}
+					errLog.Log("Error downloading %s: %v", file.Name, err)
 					return
 				}
 				stats.IncrementDownloaded(bytes)
@@ -232,7 +224,7 @@ func syncDirectory(device Device, baseURL string) error {
 	return nil
 }
 
-func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *SyncStats) error {
+func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *SyncStats, errLog *ErrorLogger) error {
 	// Read local directory
 	entries, err := os.ReadDir(localPath)
 	if err != nil {
@@ -261,7 +253,7 @@ func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *
 		if !remoteFiles[filename] {
 			localFile := filepath.Join(localPath, filename)
 			if err := os.Remove(localFile); err != nil {
-				fmt.Fprintf(os.Stderr, "%s✗ Failed to remove: %s (%v)%s\n", colorRed, filename, err, colorReset)
+				errLog.Log("Failed to remove %s: %v", localFile, err)
 			} else {
 				stats.IncrementDeleted()
 				deletedCount++

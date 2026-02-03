@@ -34,6 +34,10 @@ func main() {
 		os.Exit(0)
 	}
 
+	// Initialize error logger
+	errLog := NewErrorLogger()
+	defer errLog.Close()
+
 	config, err := readConfigFile(configFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s✗ Error reading config file: %v%s\n", colorRed, err, colorReset)
@@ -57,12 +61,20 @@ func main() {
 			fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, currentDevice, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
 			fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
 
-			if err := syncDirectory(device, config.BaseURL); err != nil {
-				fmt.Fprintf(os.Stderr, "%s✗ Error syncing %s: %v%s\n", colorRed, device.RemotePath, err, colorReset)
+			if err := syncDirectory(device, config.BaseURL, errLog); err != nil {
+				errLog.Log("Error syncing %s: %v", device.RemotePath, err)
 			}
 		}
 	}
 
 	fmt.Printf("\n%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)
-	fmt.Printf("%s✓ Sync(s) completed%s\n", colorGreen, colorReset)
+
+	// Display error summary
+	errorCount := errLog.Count()
+	if errorCount > 0 {
+		fmt.Printf("%s✓ Sync(s) completed with %d error(s)%s\n", colorYellow, errorCount, colorReset)
+		fmt.Printf("%s  See: %s%s\n", colorDim, errLog.Filename(), colorReset)
+	} else {
+		fmt.Printf("%s✓ Sync(s) completed%s\n", colorGreen, colorReset)
+	}
 }
