@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -12,6 +13,11 @@ import (
 	"strings"
 	"sync"
 	"time"
+)
+
+// Version info - injected at build time via ldflags
+var (
+	version = "dev"
 )
 
 const (
@@ -276,6 +282,14 @@ func formatBytes(bytes int64) string {
 }
 
 func main() {
+	showVersion := flag.Bool("version", false, "Show version information")
+	flag.Parse()
+
+	if *showVersion {
+		fmt.Printf("myrientor %s\n", version)
+		os.Exit(0)
+	}
+
 	config, err := readConfigFile(configFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s✗ Error reading config file: %v%s\n", colorRed, err, colorReset)

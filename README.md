@@ -53,22 +53,50 @@
 </pre>
 </div>
 
-## `// QUICK_START.sh`
+## `// INSTALL.sh`
+
+### Download Pre-built Binary (Recommended)
+
+Download the latest release for your platform from [GitHub Releases](https://github.com/coltwillcox/myrientor/releases):
+
+| Platform | Architecture | Download |
+|----------|--------------|----------|
+| Linux    | x64          | `myrientor-linux-amd64.tar.gz` |
+| Linux    | ARM64        | `myrientor-linux-arm64.tar.gz` |
+| macOS    | x64 (Intel)  | `myrientor-darwin-amd64.tar.gz` |
+| macOS    | ARM64 (M1+)  | `myrientor-darwin-arm64.tar.gz` |
+| Windows  | x64          | `myrientor-windows-amd64.zip` |
+| Windows  | ARM64        | `myrientor-windows-arm64.zip` |
+
+```bash
+# Linux/macOS example
+curl -LO https://github.com/coltwillcox/myrientor/releases/latest/download/myrientor-linux-amd64.tar.gz
+tar -xzf myrientor-linux-amd64.tar.gz
+./myrientor-linux-amd64 -version
+```
+
+### Build from Source
 
 ```bash
 # Clone the repository from the grid
 git clone https://github.com/coltwillcox/myrientor.git
 cd myrientor
 
+# Build the executable
+go build -o myrientor main.go
+
+# Check version
+./myrientor -version
+```
+
+## `// QUICK_START.sh`
+
+```bash
 # Edit the config - enable your desired ROM vaults
 # Set "sync": true for collections you want
 nano myrient-devices.json
 
 # Jack in and start the sync
-go run main.go
-
-# Or compile your own executable
-go build -o myrientor main.go
 ./myrientor
 ```
 
@@ -216,7 +244,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.0.1 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.0.3 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
