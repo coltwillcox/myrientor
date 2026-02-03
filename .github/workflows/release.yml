@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -54,8 +54,7 @@ jobs:
           tar -czvf myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz \
             myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} \
             myrient-devices.json \
-            README.md \
-            LICENSE
+            README.md
 
       - name: Create archive (Windows)
         if: matrix.goos == 'windows'
@@ -63,17 +62,29 @@ jobs:
           zip myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.zip \
             myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} \
             myrient-devices.json \
-            README.md \
-            LICENSE
+            README.md
 
-      - name: Upload release asset (Unix)
-        if: matrix.goos != 'windows'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: myrientor-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: List artifacts
+        run: ls -la artifacts/
+
+      - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
-
-      - name: Upload release asset (Windows)
-        if: matrix.goos == 'windows'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.zip
+          files: artifacts/*
+          generate_release_notes: true
