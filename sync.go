@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -38,17 +39,35 @@ func (pw *ProgressWriter) Write(p []byte) (int, error) {
 func syncDirectory(device Device, baseURL string) error {
 	stats := &SyncStats{startTime: time.Now()}
 
-	// Create HTTP client with TLS verification disabled (--no-check-certificate)
-	client := &http.Client{
+	// Client for quick operations (HEAD requests, directory listings)
+	// with TLS verification disabled (--no-check-certificate)
+	quickClient := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		},
 		Timeout: 30 * time.Second,
 	}
 
+	// Client for downloads - connection timeouts but no overall timeout for large files
+	// with TLS verification disabled (--no-check-certificate)
+	downloadClient := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			DialContext: (&net.Dialer{
+				Timeout:   30 * time.Second,
+				KeepAlive: 30 * time.Second,
+			}).DialContext,
+			TLSHandshakeTimeout: 10 * time.Second,
+			IdleConnTimeout:     90 * time.Second,
+			MaxIdleConns:        100,
+			MaxIdleConnsPerHost: maxConcurrent,
+		},
+		Timeout: 0,
+	}
+
 	// Get directory listing
 	remoteURL := baseURL + device.RemotePath
-	filesInfo, err := getDirectoryListing(client, remoteURL)
+	filesInfo, err := getDirectoryListing(quickClient, remoteURL)
 	if err != nil {
 		return fmt.Errorf("failed to get directory listing: %w", err)
 	}
@@ -149,7 +168,7 @@ func syncDirectory(device Device, baseURL string) error {
 
 			// Check if file needs downloading
 			stats.SetActivity(activitySlot, fmt.Sprintf("%s→ Checking:%s %s", colorBlue, colorReset, file.Name))
-			needsDownload, err := shouldDownload(client, remoteFile, localFile)
+			needsDownload, err := shouldDownload(quickClient, remoteFile, localFile)
 			if err != nil {
 				stats.ClearActivity(activitySlot)
 				fmt.Fprintf(os.Stderr, "\n%s✗ Error checking %s: %v%s\n", colorRed, file.Name, err, colorReset)
@@ -181,7 +200,7 @@ func syncDirectory(device Device, baseURL string) error {
 					}
 				}
 
-				bytes, err := downloadFile(client, remoteFile, localFile, onProgress)
+				bytes, err := downloadFile(downloadClient, remoteFile, localFile, onProgress)
 				stats.ClearSlotProgress(activitySlot) // Clear in-progress bytes when done
 				if err != nil {
 					stats.ClearActivity(activitySlot)
