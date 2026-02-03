@@ -149,7 +149,7 @@ func syncDirectory(device Device, baseURL string) error {
 
 			// Check if file needs downloading
 			stats.SetActivity(activitySlot, fmt.Sprintf("%s→ Checking:%s %s", colorBlue, colorReset, file.Name))
-			needsDownload, _, err := shouldDownload(client, remoteFile, localFile)
+			needsDownload, err := shouldDownload(client, remoteFile, localFile)
 			if err != nil {
 				stats.ClearActivity(activitySlot)
 				fmt.Fprintf(os.Stderr, "\n%s✗ Error checking %s: %v%s\n", colorRed, file.Name, err, colorReset)
@@ -401,36 +401,36 @@ func needsSync(localPath string, expectedSize int64) bool {
 	return false // File exists and size matches
 }
 
-func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, int64, error) {
+func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, error) {
 	// Check if local file exists
 	localInfo, err := os.Stat(localPath)
 	if os.IsNotExist(err) {
 		// File doesn't exist, get remote size
 		resp, err := client.Head(remoteURL)
 		if err != nil {
-			return false, 0, err
+			return false, err
 		}
 		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusOK {
-			return false, 0, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
+			return false, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
 		}
 
-		return true, resp.ContentLength, nil
+		return true, nil
 	}
 	if err != nil {
-		return false, 0, err
+		return false, err
 	}
 
 	// Get remote file info
 	resp, err := client.Head(remoteURL)
 	if err != nil {
-		return false, 0, err
+		return false, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return false, 0, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
+		return false, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
 	}
 
 	// Compare sizes
@@ -438,7 +438,7 @@ func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, int
 	localSize := localInfo.Size()
 
 	if remoteSize != localSize {
-		return true, remoteSize, nil
+		return true, nil
 	}
 
 	// Compare modification times if available
@@ -446,12 +446,12 @@ func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, int
 		remoteTime, err := http.ParseTime(lastModified)
 		if err == nil {
 			if remoteTime.After(localInfo.ModTime()) {
-				return true, remoteSize, nil
+				return true, nil
 			}
 		}
 	}
 
-	return false, 0, nil // File is up to date
+	return false, nil // File is up to date
 }
 
 func downloadFile(client *http.Client, fileURL, filepath string, onProgress func(written, total int64)) (int64, error) {
