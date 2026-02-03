@@ -47,7 +47,7 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
         run: |
           VERSION=${GITHUB_REF_NAME#v}
-          go build -ldflags="-s -w -X main.version=${VERSION}" -o myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} main.go
+          go build -ldflags="-s -w -X main.version=${VERSION}" -o myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} .
 
       - name: Create archive (Unix)
         if: matrix.goos != 'windows'

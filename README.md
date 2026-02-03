@@ -83,7 +83,7 @@ git clone https://github.com/coltwillcox/myrientor.git
 cd myrientor
 
 # Build the executable
-go build -o myrientor main.go
+go build -o myrientor .
 
 # Check version
 ./myrientor -version
@@ -244,7 +244,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.0.3 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.0.4 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
