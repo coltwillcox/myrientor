@@ -11,19 +11,19 @@ type Device struct {
 	LocalPath  string `json:"local_path"`
 }
 
-type Config struct {
+type RemoteConfig struct {
 	BaseURL string   `json:"base_url"`
 	Devices []Device `json:"devices"`
 }
 
-func readConfigFile(filename string) (*Config, error) {
+func readRemoteConfigFile(filename string) (*RemoteConfig, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	var config Config
+	var config RemoteConfig
 	decoder := json.NewDecoder(file)
 	if err := decoder.Decode(&config); err != nil {
 		return nil, err

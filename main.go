@@ -10,8 +10,8 @@ import (
 var version = "dev"
 
 const (
-	configFile    = "myrient-devices.json"
-	maxConcurrent = 2 // equivalent to --transfers 2
+	remoteConfigFile = "remote.json"
+	maxConcurrent    = 2 // equivalent to --transfers 2
 
 	// ANSI color codes
 	colorReset   = "\033[0m"
@@ -38,30 +38,30 @@ func main() {
 	errLog := NewErrorLogger()
 	defer errLog.Close()
 
-	config, err := readConfigFile(configFile)
+	remoteConfig, err := readRemoteConfigFile(remoteConfigFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s✗ Error reading config file: %v%s\n", colorRed, err, colorReset)
 		os.Exit(1)
 	}
 
 	totalDevices := 0
-	for _, device := range config.Devices {
+	for _, device := range remoteConfig.Devices {
 		if device.Sync {
 			totalDevices++
 		}
 	}
 
-	fmt.Printf("%s%sStarting sync of %d device(s) from %s%s\n", colorBold, colorCyan, totalDevices, config.BaseURL, colorReset)
+	fmt.Printf("%s%sStarting sync of %d device(s) from %s%s\n", colorBold, colorCyan, totalDevices, remoteConfig.BaseURL, colorReset)
 	fmt.Printf("%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)
 
 	currentDevice := 0
-	for _, device := range config.Devices {
+	for _, device := range remoteConfig.Devices {
 		if device.Sync {
 			currentDevice++
 			fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, currentDevice, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
 			fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
 
-			if err := syncDirectory(device, config.BaseURL, errLog); err != nil {
+			if err := syncDirectory(device, remoteConfig.BaseURL, errLog); err != nil {
 				errLog.Log("Error syncing %s: %v", device.RemotePath, err)
 			}
 		}
