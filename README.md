@@ -117,6 +117,8 @@ Edit `remote.json` to select your targets:
 }
 ```
 
+> **Note:** The `local_path` folder names in `remote.json` match the [EmulationStation Desktop Edition (ES-DE)](https://es-de.org/) ROM directory structure. See the [ES-DE User Guide](https://gitlab.com/es-de/emulationstation-de/-/blob/master/USERGUIDE.md) for details on supported systems and folder naming conventions.
+
 ### Available Vaults Include:
 <div align="center">
 <pre>
