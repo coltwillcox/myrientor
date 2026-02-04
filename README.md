@@ -94,7 +94,7 @@ go build -o myrientor .
 ```bash
 # Edit the config - enable your desired ROM vaults
 # Set "sync": true for collections you want
-nano myrient-devices.json
+nano remote.json
 
 # Jack in and start the sync
 ./myrientor
@@ -102,7 +102,7 @@ nano myrient-devices.json
 
 ## `// CONFIG_MATRIX.json`
 
-Edit `myrient-devices.json` to select your targets:
+Edit `remote.json` to select your targets:
 
 ```json
 {
@@ -244,7 +244,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.2.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.2.1 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>

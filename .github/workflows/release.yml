@@ -54,7 +54,8 @@ jobs:
         run: |
           tar -czvf myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz \
             myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} \
-            myrient-devices.json \
+            local.json \
+            remote.json \
             README.md
 
       - name: Create archive (Windows)
@@ -62,7 +63,8 @@ jobs:
         run: |
           zip myrientor-${{ matrix.goos }}-${{ matrix.goarch }}.zip \
             myrientor-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} \
-            myrient-devices.json \
+            local.json \
+            remote.json \
             README.md
 
       - name: Upload artifact
