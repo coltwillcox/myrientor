@@ -56,3 +56,24 @@ func readRemoteConfigFile() (*RemoteConfig, error) {
 
 	return &config, nil
 }
+
+func (d *Device) ShouldSync() bool {
+	return d != nil &&
+		d.Sync &&
+		d.LocalPath != ""
+}
+
+func (r *RemoteConfig) SyncableCount() int {
+	count := 0
+	if r == nil {
+		return count
+	}
+
+	for _, device := range r.Devices {
+		if device.ShouldSync() {
+			count++
+		}
+	}
+
+	return count
+}

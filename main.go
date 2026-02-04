@@ -53,19 +53,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	totalDevices := 0
-	for _, device := range remoteConfig.Devices {
-		if device.Sync {
-			totalDevices++
-		}
-	}
+	totalDevices := remoteConfig.SyncableCount()
 
 	fmt.Printf("%s%sStarting sync of %d device(s) from %s%s\n", colorBold, colorCyan, totalDevices, remoteConfig.BaseURL, colorReset)
 	fmt.Printf("%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)
 
 	currentDevice := 0
 	for _, device := range remoteConfig.Devices {
-		if device.Sync {
+		if device.ShouldSync() {
 			currentDevice++
 			fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, currentDevice, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
 			fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
