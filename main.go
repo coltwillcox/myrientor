@@ -27,6 +27,7 @@ const (
 func main() {
 	showVersion := flag.Bool("version", false, "Show version information")
 	maxConcurrentFlag := flag.Int("concurrent", 0, "Maximum concurrent downloads")
+	syncFlag := flag.String("sync", "", "Sync specific device by local_path")
 	flag.Parse()
 
 	if *showVersion {
@@ -53,21 +54,40 @@ func main() {
 		os.Exit(1)
 	}
 
-	totalDevices := remoteConfig.SyncableCount()
+	// Build list of devices to sync
+	var devicesToSync []Device
+	if *syncFlag != "" {
+		// Find specific device by local_path
+		device := remoteConfig.FindByLocalPath(*syncFlag)
+		if device == nil {
+			fmt.Fprintf(os.Stderr, "%s✗ Device not found: %s%s\n", colorRed, *syncFlag, colorReset)
+			os.Exit(1)
+		}
+		if !device.ShouldSync() {
+			fmt.Fprintf(os.Stderr, "%s✗ Device is not syncable: %s%s\n", colorRed, *syncFlag, colorReset)
+			os.Exit(1)
+		}
+		devicesToSync = append(devicesToSync, *device)
+	} else {
+		// Sync all enabled devices
+		for _, device := range remoteConfig.Devices {
+			if device.ShouldSync() {
+				devicesToSync = append(devicesToSync, device)
+			}
+		}
+	}
+
+	totalDevices := len(devicesToSync)
 
 	fmt.Printf("%s%sStarting sync of %d device(s) from %s%s\n", colorBold, colorCyan, totalDevices, remoteConfig.BaseURL, colorReset)
 	fmt.Printf("%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)
 
-	currentDevice := 0
-	for _, device := range remoteConfig.Devices {
-		if device.ShouldSync() {
-			currentDevice++
-			fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, currentDevice, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
-			fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
+	for i, device := range devicesToSync {
+		fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, i+1, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
+		fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
 
-			if err := syncDirectory(device, remoteConfig.BaseURL, maxConcurrent, errLog); err != nil {
-				errLog.Log("Error syncing %s: %v", device.RemotePath, err)
-			}
+		if err := syncDirectory(device, remoteConfig.BaseURL, maxConcurrent, errLog); err != nil {
+			errLog.Log("Error syncing %s: %v", device.RemotePath, err)
 		}
 	}
 

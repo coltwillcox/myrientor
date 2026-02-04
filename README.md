@@ -135,9 +135,20 @@ Create or edit an optional `local.json` file to customize settings:
 
 Settings priority: **command-line flags** > **local.json** > **defaults**
 
+### Command-line Flags
+
+| Flag | Description | Example |
+|------|-------------|---------|
+| `-version` | Show version information | `./myrientor -version` |
+| `-concurrent` | Set number of parallel downloads | `./myrientor -concurrent 8` |
+| `-sync` | Sync specific device by `local_path` | `./myrientor -sync gb` |
+
 ```bash
-# Override with flag
-./myrientor -concurrent 8
+# Show version
+./myrientor -version
+
+# Sync only Game Boy ROMs with 4 parallel downloads
+./myrientor -sync gb -concurrent 4
 ```
 
 ### Available Vaults Include:
@@ -268,7 +279,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.3.3 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.4.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
