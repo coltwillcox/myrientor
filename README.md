@@ -119,6 +119,27 @@ Edit `remote.json` to select your targets:
 
 > **Note:** The `local_path` folder names in `remote.json` match the [EmulationStation Desktop Edition (ES-DE)](https://es-de.org/) ROM directory structure. See the [ES-DE User Guide](https://gitlab.com/es-de/emulationstation-de/-/blob/master/USERGUIDE.md) for details on supported systems and folder naming conventions.
 
+### Local Settings
+
+Create or edit an optional `local.json` file to customize settings:
+
+```json
+{
+  "max_concurrent": 4
+}
+```
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `max_concurrent` | Number of parallel downloads | `2` |
+
+Settings priority: **command-line flags** > **local.json** > **defaults**
+
+```bash
+# Override with flag
+./myrientor -concurrent 8
+```
+
 ### Available Vaults Include:
 <div align="center">
 <pre>
@@ -246,7 +267,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.3.1 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.3.2 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
