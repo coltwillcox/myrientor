@@ -36,8 +36,8 @@ func (pw *ProgressWriter) Write(p []byte) (int, error) {
 	return n, err
 }
 
-func syncDirectory(device Device, baseURL string, errLog *ErrorLogger) error {
-	stats := &SyncStats{startTime: time.Now()}
+func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *ErrorLogger) error {
+	stats := NewSyncStats(maxConcurrent)
 
 	// Client for quick operations (HEAD requests, directory listings)
 	// with TLS verification disabled (--no-check-certificate)

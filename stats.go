@@ -12,13 +12,23 @@ type SyncStats struct {
 	filesDownloaded  int
 	filesDeleted     int
 	filesSkipped     int
-	bytesDownloaded  int64                // Completed downloads total
-	bytesInProgress  [maxConcurrent]int64 // Current progress per slot
+	bytesDownloaded  int64   // Completed downloads total
+	bytesInProgress  []int64 // Current progress per slot
 	totalBytes       int64
 	startTime        time.Time
-	activities       [maxConcurrent]string // Track current activity in each slot
-	activeSlots      int                   // Number of activity slots to display (min of maxConcurrent and file count)
-	lastPrintedLines int                   // Number of lines printed in last Print() call (for cursor positioning)
+	activities       []string // Track current activity in each slot
+	activeSlots      int      // Number of activity slots to display (min of maxConcurrent and file count)
+	lastPrintedLines int      // Number of lines printed in last Print() call (for cursor positioning)
+	maxConcurrent    int      // Maximum concurrent downloads
+}
+
+func NewSyncStats(maxConcurrent int) *SyncStats {
+	return &SyncStats{
+		startTime:       time.Now(),
+		bytesInProgress: make([]int64, maxConcurrent),
+		activities:      make([]string, maxConcurrent),
+		maxConcurrent:   maxConcurrent,
+	}
 }
 
 func (s *SyncStats) IncrementChecked() {
@@ -61,7 +71,7 @@ func (s *SyncStats) AddTotalBytes(bytes int64) {
 func (s *SyncStats) SetSlotProgress(slot int, bytes int64) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if slot >= 0 && slot < maxConcurrent {
+	if slot >= 0 && slot < s.maxConcurrent {
 		s.bytesInProgress[slot] = bytes
 	}
 }
@@ -69,7 +79,7 @@ func (s *SyncStats) SetSlotProgress(slot int, bytes int64) {
 func (s *SyncStats) ClearSlotProgress(slot int) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if slot >= 0 && slot < maxConcurrent {
+	if slot >= 0 && slot < s.maxConcurrent {
 		s.bytesInProgress[slot] = 0
 	}
 }
@@ -77,7 +87,7 @@ func (s *SyncStats) ClearSlotProgress(slot int) {
 func (s *SyncStats) getTotalBytesTransferred() int64 {
 	// Must be called with lock held
 	total := s.bytesDownloaded
-	for i := range maxConcurrent {
+	for i := range s.maxConcurrent {
 		total += s.bytesInProgress[i]
 	}
 	return total
@@ -86,7 +96,7 @@ func (s *SyncStats) getTotalBytesTransferred() int64 {
 func (s *SyncStats) SetActivity(slot int, message string) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if slot >= 0 && slot < maxConcurrent {
+	if slot >= 0 && slot < s.maxConcurrent {
 		s.activities[slot] = message
 	}
 }
@@ -94,7 +104,7 @@ func (s *SyncStats) SetActivity(slot int, message string) {
 func (s *SyncStats) ClearActivity(slot int) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if slot >= 0 && slot < maxConcurrent {
+	if slot >= 0 && slot < s.maxConcurrent {
 		s.activities[slot] = ""
 	}
 }

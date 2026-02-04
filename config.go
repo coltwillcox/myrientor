@@ -5,10 +5,13 @@ import (
 	"os"
 )
 
-type Device struct {
-	RemotePath string `json:"remote_path"`
-	Sync       bool   `json:"sync"`
-	LocalPath  string `json:"local_path"`
+const (
+	remoteConfigFile = "remote.json"
+	localConfigFile  = "local.json"
+)
+
+type LocalConfig struct {
+	MaxConcurrent int `json:"max_concurrent"`
 }
 
 type RemoteConfig struct {
@@ -16,8 +19,30 @@ type RemoteConfig struct {
 	Devices []Device `json:"devices"`
 }
 
-func readRemoteConfigFile(filename string) (*RemoteConfig, error) {
-	file, err := os.Open(filename)
+type Device struct {
+	RemotePath string `json:"remote_path"`
+	Sync       bool   `json:"sync"`
+	LocalPath  string `json:"local_path"`
+}
+
+func readLocalConfigFile() (*LocalConfig, error) {
+	file, err := os.Open(localConfigFile)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	var config LocalConfig
+	decoder := json.NewDecoder(file)
+	if err := decoder.Decode(&config); err != nil {
+		return nil, err
+	}
+
+	return &config, nil
+}
+
+func readRemoteConfigFile() (*RemoteConfig, error) {
+	file, err := os.Open(remoteConfigFile)
 	if err != nil {
 		return nil, err
 	}

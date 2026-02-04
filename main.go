@@ -10,8 +10,7 @@ import (
 var version = "dev"
 
 const (
-	remoteConfigFile = "remote.json"
-	maxConcurrent    = 2 // equivalent to --transfers 2
+	defaultMaxConcurrent = 2
 
 	// ANSI color codes
 	colorReset   = "\033[0m"
@@ -27,6 +26,7 @@ const (
 
 func main() {
 	showVersion := flag.Bool("version", false, "Show version information")
+	maxConcurrentFlag := flag.Int("concurrent", 0, "Maximum concurrent downloads")
 	flag.Parse()
 
 	if *showVersion {
@@ -34,11 +34,20 @@ func main() {
 		os.Exit(0)
 	}
 
+	// Determine maxConcurrent: flag > config file > default
+	maxConcurrent := defaultMaxConcurrent
+	if localConfig, err := readLocalConfigFile(); err == nil && localConfig.MaxConcurrent > 0 {
+		maxConcurrent = localConfig.MaxConcurrent
+	}
+	if *maxConcurrentFlag > 0 {
+		maxConcurrent = *maxConcurrentFlag
+	}
+
 	// Initialize error logger
 	errLog := NewErrorLogger()
 	defer errLog.Close()
 
-	remoteConfig, err := readRemoteConfigFile(remoteConfigFile)
+	remoteConfig, err := readRemoteConfigFile()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s✗ Error reading config file: %v%s\n", colorRed, err, colorReset)
 		os.Exit(1)
@@ -61,7 +70,7 @@ func main() {
 			fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, currentDevice, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
 			fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
 
-			if err := syncDirectory(device, remoteConfig.BaseURL, errLog); err != nil {
+			if err := syncDirectory(device, remoteConfig.BaseURL, maxConcurrent, errLog); err != nil {
 				errLog.Log("Error syncing %s: %v", device.RemotePath, err)
 			}
 		}
