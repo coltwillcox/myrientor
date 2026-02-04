@@ -207,7 +207,8 @@ Time: 1m23s
 
 ```
 ; PHASE 1: INITIALIZATION
-LOAD    config.json          ; Parse the sacred configuration
+LOAD    local.json           ; Parse the local configuration
+LOAD    remote.json          ; Parse the sacred configuration
 SCAN    devices[]            ; Count enabled targets
 JMP     sync_loop
 
@@ -267,7 +268,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.3.2 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.3.3 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
