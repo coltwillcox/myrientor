@@ -170,6 +170,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 			stats.SetActivity(activitySlot, fmt.Sprintf("%s→ Checking:%s %s", colorBlue, colorReset, file.Name))
 			needsDownload, err := shouldDownload(quickClient, remoteFile, localFile)
 			if err != nil {
+				stats.IncrementErrors()
 				stats.ClearActivity(activitySlot)
 				errLog.Log("Error checking %s: %v", file.Name, err)
 				return
@@ -199,6 +200,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 				bytes, err := downloadFile(downloadClient, remoteFile, localFile, onProgress)
 				stats.ClearSlotProgress(activitySlot) // Clear in-progress bytes when done
 				if err != nil {
+					stats.IncrementErrors()
 					stats.ClearActivity(activitySlot)
 					errLog.Log("Error downloading %s: %v", file.Name, err)
 					return
@@ -253,6 +255,7 @@ func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *
 		if !remoteFiles[filename] {
 			localFile := filepath.Join(localPath, filename)
 			if err := os.Remove(localFile); err != nil {
+				stats.IncrementErrors()
 				errLog.Log("Failed to remove %s: %v", localFile, err)
 			} else {
 				stats.IncrementDeleted()

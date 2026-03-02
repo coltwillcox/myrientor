@@ -12,6 +12,7 @@ type SyncStats struct {
 	filesDownloaded  int
 	filesDeleted     int
 	filesSkipped     int
+	filesErrors      int
 	bytesDownloaded  int64   // Completed downloads total
 	bytesInProgress  []int64 // Current progress per slot
 	totalBytes       int64
@@ -54,6 +55,12 @@ func (s *SyncStats) IncrementSkipped() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.filesSkipped++
+}
+
+func (s *SyncStats) IncrementErrors() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.filesErrors++
 }
 
 func (s *SyncStats) SetTotalBytes(bytes int64) {
@@ -158,7 +165,7 @@ func (s *SyncStats) Print() {
 	}
 
 	// Print stats on separate lines
-	fmt.Printf("%sFiles:%s %d checked, %s%d downloaded%s, %d skipped, %s%d deleted%s\n",
+	fmt.Printf("%sFiles:%s %d checked, %s%d downloaded%s, %d skipped, %s%d deleted%s, %s%d errors%s\n",
 		colorBold,
 		colorReset,
 		s.filesChecked,
@@ -168,6 +175,9 @@ func (s *SyncStats) Print() {
 		s.filesSkipped,
 		colorYellow,
 		s.filesDeleted,
+		colorReset,
+		colorRed,
+		s.filesErrors,
 		colorReset)
 
 	fmt.Printf("%sTransfer:%s %s%s%s / %s%s @ %s%s/s%s\n",
