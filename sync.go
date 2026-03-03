@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"fmt"
 	"io"
@@ -14,26 +15,14 @@ import (
 	"time"
 )
 
+const (
+	downloadMaxRetries   = 3
+	downloadStallTimeout = 30 * time.Second
+)
+
 type FileInfo struct {
 	Name string
 	Size int64
-}
-
-// ProgressWriter wraps an io.Writer and reports progress via callback
-type ProgressWriter struct {
-	writer     io.Writer
-	total      int64
-	written    int64
-	onProgress func(written, total int64)
-}
-
-func (pw *ProgressWriter) Write(p []byte) (int, error) {
-	n, err := pw.writer.Write(p)
-	pw.written += int64(n)
-	if pw.onProgress != nil {
-		pw.onProgress(pw.written, pw.total)
-	}
-	return n, err
 }
 
 func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *ErrorLogger) error {
@@ -465,47 +454,146 @@ func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, err
 	return false, nil // File is up to date
 }
 
-func downloadFile(client *http.Client, fileURL, filepath string, onProgress func(written, total int64)) (int64, error) {
-	// Create the file
-	out, err := os.Create(filepath)
-	if err != nil {
-		return 0, err
+// downloadFile downloads a file with automatic retry on stall or transient error.
+// It uses HTTP Range requests to resume from where a failed attempt left off.
+// Returns total bytes written to the file.
+func downloadFile(client *http.Client, fileURL, filePath string, onProgress func(written, total int64)) (int64, error) {
+	var totalInFile int64
+	for attempt := 0; attempt <= downloadMaxRetries; attempt++ {
+		n, err := downloadAttempt(client, fileURL, filePath, totalInFile, onProgress)
+		totalInFile = n
+		if err == nil {
+			return totalInFile, nil
+		}
+		if attempt == downloadMaxRetries {
+			return totalInFile, err
+		}
 	}
-	defer out.Close()
+	return totalInFile, nil
+}
 
-	// Download the file
-	resp, err := client.Get(fileURL)
+// downloadAttempt performs a single download attempt starting at offset.
+// If the server supports Range requests and offset > 0, it resumes from offset;
+// otherwise it restarts from the beginning.
+// Returns total bytes present in the file after this attempt.
+func downloadAttempt(client *http.Client, fileURL, filePath string, offset int64, onProgress func(written, total int64)) (int64, error) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fileURL, nil)
 	if err != nil {
-		return 0, err
+		return offset, err
+	}
+	if offset > 0 {
+		req.Header.Set("Range", fmt.Sprintf("bytes=%d-", offset))
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return offset, err
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
-		return 0, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
-	}
+	var (
+		out        *os.File
+		fileOffset int64 // actual byte offset we write from in the file
+		totalSize  int64 // total file size (for progress reporting)
+	)
 
-	// Copy the content with progress tracking
-	var written int64
-	if onProgress != nil {
-		pw := &ProgressWriter{
-			writer:     out,
-			total:      resp.ContentLength,
-			onProgress: onProgress,
+	switch resp.StatusCode {
+	case http.StatusPartialContent:
+		// Server honours the Range request; resume writing from offset
+		totalSize = parseTotalFromContentRange(resp.Header.Get("Content-Range"))
+		fileOffset = offset
+		out, err = os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0644)
+		if err != nil {
+			return offset, err
 		}
-		written, err = io.Copy(pw, resp.Body)
-	} else {
-		written, err = io.Copy(out, resp.Body)
+		if _, err = out.Seek(fileOffset, io.SeekStart); err != nil {
+			out.Close()
+			return offset, err
+		}
+	case http.StatusOK:
+		// Server does not support Range; restart from the beginning
+		fileOffset = 0
+		totalSize = resp.ContentLength
+		out, err = os.Create(filePath)
+		if err != nil {
+			return 0, err
+		}
+	default:
+		return offset, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
 	}
-	if err != nil {
-		return 0, err
+	defer out.Close()
+
+	// Stall watchdog: cancel the context if no data arrives for stallTimeout
+	var (
+		lastReadMu sync.Mutex
+		lastRead   = time.Now()
+	)
+	watchdogDone := make(chan struct{})
+	defer close(watchdogDone)
+	go func() {
+		ticker := time.NewTicker(5 * time.Second)
+		defer ticker.Stop()
+		for {
+			select {
+			case <-watchdogDone:
+				return
+			case <-ticker.C:
+				lastReadMu.Lock()
+				stalled := time.Since(lastRead) > downloadStallTimeout
+				lastReadMu.Unlock()
+				if stalled {
+					cancel()
+				}
+			}
+		}
+	}()
+
+	// Read loop with stall tracking and progress reporting
+	written := int64(0)
+	buf := make([]byte, 32*1024)
+	for {
+		n, rerr := resp.Body.Read(buf)
+		if n > 0 {
+			lastReadMu.Lock()
+			lastRead = time.Now()
+			lastReadMu.Unlock()
+			if _, werr := out.Write(buf[:n]); werr != nil {
+				return fileOffset + written, werr
+			}
+			written += int64(n)
+			if onProgress != nil {
+				onProgress(fileOffset+written, totalSize)
+			}
+		}
+		if rerr == io.EOF {
+			break
+		}
+		if rerr != nil {
+			return fileOffset + written, rerr
+		}
 	}
 
 	// Set modification time if available
 	if lastModified := resp.Header.Get("Last-Modified"); lastModified != "" {
 		if modTime, err := http.ParseTime(lastModified); err == nil {
-			os.Chtimes(filepath, modTime, modTime)
+			os.Chtimes(filePath, modTime, modTime)
 		}
 	}
 
-	return written, nil
+	return fileOffset + written, nil
+}
+
+// parseTotalFromContentRange extracts the total file size from a Content-Range header.
+// Format: "bytes X-Y/Z" → returns Z.
+func parseTotalFromContentRange(contentRange string) int64 {
+	slash := strings.LastIndex(contentRange, "/")
+	if slash < 0 {
+		return 0
+	}
+	var total int64
+	fmt.Sscanf(contentRange[slash+1:], "%d", &total)
+	return total
 }

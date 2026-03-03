@@ -144,7 +144,10 @@ func (s *SyncStats) getSlotSpeedLocked(slot int) int64 {
 	if dt <= 0 {
 		return 0
 	}
-	return int64(float64(newest.bytes-oldest.bytes) / dt)
+	if speed := int64(float64(newest.bytes-oldest.bytes) / dt); speed > 0 {
+		return speed
+	}
+	return 0
 }
 
 func (s *SyncStats) getGlobalSpeedLocked() int64 {
@@ -164,7 +167,10 @@ func (s *SyncStats) getGlobalSpeedLocked() int64 {
 	if dt <= 0 {
 		return 0
 	}
-	return int64(float64(newest.bytes-oldest.bytes) / dt)
+	if speed := int64(float64(newest.bytes-oldest.bytes) / dt); speed > 0 {
+		return speed
+	}
+	return 0
 }
 
 func (s *SyncStats) getTotalBytesTransferred() int64 {
