@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-03-03
+
+### Added
+- Total file count shown in Files stat (`N / total`)
+- ETA displayed below elapsed time, based on overall processing rate
+- Automatic download retry (up to 3 attempts) with HTTP Range resume on stall or error
+- Stall detection: cancels and retries if no data received for 30 seconds
+
+### Changed
+- Files, Transfer, and Time stat lines each split into two lines for readability
+- `formatDuration` now includes days (e.g. `2d 03h 15m 42s`)
+
 ## [0.6.0] - 2026-03-03
 
 ### Changed

@@ -176,9 +176,12 @@ Starting sync of 2 device(s) from https://myrient.erista.me/
 ✓ Cleaned up 3 obsolete file(s)
 ↓ Pokemon Red (USA).zip  74.3% 663.21 MiB/892.45 MiB @ 11.20 MiB/s
 ↓ Tetris (World).zip     31.1% 98.76 MiB/317.43 MiB @ 9.87 MiB/s
-Files: 1437 checked, 42 downloaded, 1395 skipped, 3 deleted, 0 errors
-Transfer: 892.45 MiB / 1.20 GiB (74.4%) @ 12.34 MiB/s
-Time: 1m23s
+Files:    1437 / 1440
+          42 downloaded  1395 skipped  3 deleted  0 errors
+Transfer: 892.45 MiB / 1.20 GiB (74.4%)
+          @ 12.34 MiB/s
+Time:     1m 23s
+          ETA 2m 15s
 
 ✓ Sync complete
 ═══════════════════════════════════════════════════════════════════════
@@ -279,7 +282,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.6.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.7.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
