@@ -89,13 +89,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 		filesToSync = append(filesToSync, fileInfo)
 		remoteFileSet[fileInfo.Name] = true
 
-		// Pre-calculate total size for files that need downloading
-		localFile := filepath.Join(device.LocalPath, fileInfo.Name)
-
-		// Quick check if file needs downloading
-		if needsSync(localFile, fileInfo.Size) {
-			totalSize += fileInfo.Size
-		}
+		totalSize += fileInfo.Size
 	}
 
 	// Set total bytes for progress tracking
@@ -208,7 +202,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 				stats.IncrementDownloaded(bytes)
 				stats.SetActivity(activitySlot, fmt.Sprintf("%s✓%s %s %s(%s)%s", colorGreen, colorReset, file.Name, colorDim, formatBytes(bytes), colorReset))
 			} else {
-				stats.IncrementSkipped()
+				stats.IncrementSkipped(file.Size)
 				stats.ClearActivity(activitySlot)
 			}
 		}(fileInfo, slot)

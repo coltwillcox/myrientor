@@ -51,10 +51,11 @@ func (s *SyncStats) IncrementDeleted() {
 	s.filesDeleted++
 }
 
-func (s *SyncStats) IncrementSkipped() {
+func (s *SyncStats) IncrementSkipped(bytes int64) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.filesSkipped++
+	s.bytesDownloaded += bytes
 }
 
 func (s *SyncStats) IncrementErrors() {
