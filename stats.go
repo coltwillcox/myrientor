@@ -13,6 +13,7 @@ type speedSample struct {
 
 type SyncStats struct {
 	mu                     sync.Mutex
+	filesTotal             int
 	filesChecked           int
 	filesDownloaded        int
 	filesDeleted           int
@@ -41,6 +42,12 @@ func NewSyncStats(maxConcurrent int) *SyncStats {
 		slotSpeedSamples: make([][]speedSample, maxConcurrent),
 		maxConcurrent:    maxConcurrent,
 	}
+}
+
+func (s *SyncStats) SetFilesTotal(n int) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.filesTotal = n
 }
 
 func (s *SyncStats) IncrementChecked() {
@@ -222,8 +229,8 @@ func (s *SyncStats) Print() {
 		}
 	}
 
-	// Calculate lines to print this time (activity lines + 3 stats lines)
-	linesToPrint := activeCount + 3
+	// Calculate lines to print this time (activity lines + 4 stats lines)
+	linesToPrint := activeCount + 4
 
 	// Move cursor up to overwrite previous lines
 	for i := range s.lastPrintedLines {
@@ -256,10 +263,10 @@ func (s *SyncStats) Print() {
 	}
 
 	// Print stats on separate lines
-	fmt.Printf("%sFiles:%s %d checked, %s%d downloaded%s, %d skipped, %s%d deleted%s, %s%d errors%s\n",
-		colorBold,
-		colorReset,
-		s.filesChecked,
+	fmt.Printf("%sFiles:%s %d / %d\n",
+		colorBold, colorReset,
+		s.filesChecked, s.filesTotal)
+	fmt.Printf("       %s%d downloaded%s  %d skipped  %s%d deleted%s  %s%d errors%s\n",
 		colorGreen,
 		s.filesDownloaded,
 		colorReset,

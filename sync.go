@@ -84,7 +84,8 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 	// Set total bytes for progress tracking
 	stats.SetTotalBytes(totalSize)
 
-	// Set active slots to minimum of maxConcurrent and file count
+	// Set total file count and active slots
+	stats.SetFilesTotal(len(filesToSync))
 	stats.activeSlots = min(maxConcurrent, len(filesToSync))
 	if stats.activeSlots == 0 {
 		stats.activeSlots = 1 // At least 1 slot for stats display
@@ -110,7 +111,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 	stopStats := make(chan struct{})
 
 	// Print initial empty lines for activities and stats
-	initialLines := stats.activeSlots + 3
+	initialLines := stats.activeSlots + 4
 	for range initialLines {
 		fmt.Println()
 	}
