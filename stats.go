@@ -6,29 +6,40 @@ import (
 	"time"
 )
 
+type speedSample struct {
+	t     time.Time
+	bytes int64
+}
+
 type SyncStats struct {
-	mu               sync.Mutex
-	filesChecked     int
-	filesDownloaded  int
-	filesDeleted     int
-	filesSkipped     int
-	filesErrors      int
-	bytesDownloaded  int64   // Completed downloads total
-	bytesInProgress  []int64 // Current progress per slot
-	totalBytes       int64
-	startTime        time.Time
-	activities       []string // Track current activity in each slot
-	activeSlots      int      // Number of activity slots to display (min of maxConcurrent and file count)
-	lastPrintedLines int      // Number of lines printed in last Print() call (for cursor positioning)
-	maxConcurrent    int      // Maximum concurrent downloads
+	mu                     sync.Mutex
+	filesChecked           int
+	filesDownloaded        int
+	filesDeleted           int
+	filesSkipped           int
+	filesErrors            int
+	bytesDownloaded        int64   // Completed bytes including skipped (for transfer progress display)
+	bytesActuallyDownloaded int64  // Only actual downloads, for speed calculation
+	bytesInProgress        []int64 // Current progress per slot
+	slotBytesBase          []int64 // Cumulative completed bytes per slot (for monotonic speed samples)
+	totalBytes             int64
+	startTime              time.Time
+	activities             []string       // Track current activity in each slot
+	activeSlots            int            // Number of activity slots to display (min of maxConcurrent and file count)
+	lastPrintedLines       int            // Number of lines printed in last Print() call (for cursor positioning)
+	maxConcurrent          int            // Maximum concurrent downloads
+	globalSpeedSamples     []speedSample  // Sliding window for global download speed
+	slotSpeedSamples       [][]speedSample // Sliding window per slot for per-file speed
 }
 
 func NewSyncStats(maxConcurrent int) *SyncStats {
 	return &SyncStats{
-		startTime:       time.Now(),
-		bytesInProgress: make([]int64, maxConcurrent),
-		activities:      make([]string, maxConcurrent),
-		maxConcurrent:   maxConcurrent,
+		startTime:        time.Now(),
+		bytesInProgress:  make([]int64, maxConcurrent),
+		slotBytesBase:    make([]int64, maxConcurrent),
+		activities:       make([]string, maxConcurrent),
+		slotSpeedSamples: make([][]speedSample, maxConcurrent),
+		maxConcurrent:    maxConcurrent,
 	}
 }
 
@@ -38,11 +49,15 @@ func (s *SyncStats) IncrementChecked() {
 	s.filesChecked++
 }
 
-func (s *SyncStats) IncrementDownloaded(bytes int64) {
+func (s *SyncStats) IncrementDownloaded(slot int, bytes int64) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.filesDownloaded++
 	s.bytesDownloaded += bytes
+	s.bytesActuallyDownloaded += bytes
+	if slot >= 0 && slot < s.maxConcurrent {
+		s.slotBytesBase[slot] += bytes
+	}
 }
 
 func (s *SyncStats) IncrementDeleted() {
@@ -81,6 +96,15 @@ func (s *SyncStats) SetSlotProgress(slot int, bytes int64) {
 	defer s.mu.Unlock()
 	if slot >= 0 && slot < s.maxConcurrent {
 		s.bytesInProgress[slot] = bytes
+		// Record slot speed sample
+		now := time.Now()
+		cumulative := s.slotBytesBase[slot] + bytes
+		s.slotSpeedSamples[slot] = append(s.slotSpeedSamples[slot], speedSample{t: now, bytes: cumulative})
+		// Prune samples older than 12 seconds
+		cutoff := now.Add(-12 * time.Second)
+		for len(s.slotSpeedSamples[slot]) > 1 && s.slotSpeedSamples[slot][0].t.Before(cutoff) {
+			s.slotSpeedSamples[slot] = s.slotSpeedSamples[slot][1:]
+		}
 	}
 }
 
@@ -90,6 +114,57 @@ func (s *SyncStats) ClearSlotProgress(slot int) {
 	if slot >= 0 && slot < s.maxConcurrent {
 		s.bytesInProgress[slot] = 0
 	}
+}
+
+// GetSlotSpeed returns the download speed for a slot over the last 10 seconds.
+func (s *SyncStats) GetSlotSpeed(slot int) int64 {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.getSlotSpeedLocked(slot)
+}
+
+func (s *SyncStats) getSlotSpeedLocked(slot int) int64 {
+	if slot < 0 || slot >= s.maxConcurrent {
+		return 0
+	}
+	samples := s.slotSpeedSamples[slot]
+	if len(samples) < 2 {
+		return 0
+	}
+	newest := samples[len(samples)-1]
+	cutoff := newest.t.Add(-10 * time.Second)
+	oldest := samples[0]
+	for _, sample := range samples {
+		if sample.t.After(cutoff) {
+			break
+		}
+		oldest = sample
+	}
+	dt := newest.t.Sub(oldest.t).Seconds()
+	if dt <= 0 {
+		return 0
+	}
+	return int64(float64(newest.bytes-oldest.bytes) / dt)
+}
+
+func (s *SyncStats) getGlobalSpeedLocked() int64 {
+	if len(s.globalSpeedSamples) < 2 {
+		return 0
+	}
+	newest := s.globalSpeedSamples[len(s.globalSpeedSamples)-1]
+	cutoff := newest.t.Add(-10 * time.Second)
+	oldest := s.globalSpeedSamples[0]
+	for _, sample := range s.globalSpeedSamples {
+		if sample.t.After(cutoff) {
+			break
+		}
+		oldest = sample
+	}
+	dt := newest.t.Sub(oldest.t).Seconds()
+	if dt <= 0 {
+		return 0
+	}
+	return int64(float64(newest.bytes-oldest.bytes) / dt)
 }
 
 func (s *SyncStats) getTotalBytesTransferred() int64 {
@@ -120,6 +195,18 @@ func (s *SyncStats) ClearActivity(slot int) {
 func (s *SyncStats) Print() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	// Record global speed sample (download bytes only, not skipped)
+	now := time.Now()
+	globalBytes := s.bytesActuallyDownloaded
+	for i := range s.maxConcurrent {
+		globalBytes += s.bytesInProgress[i]
+	}
+	s.globalSpeedSamples = append(s.globalSpeedSamples, speedSample{t: now, bytes: globalBytes})
+	cutoff := now.Add(-12 * time.Second)
+	for len(s.globalSpeedSamples) > 1 && s.globalSpeedSamples[0].t.Before(cutoff) {
+		s.globalSpeedSamples = s.globalSpeedSamples[1:]
+	}
 
 	// Count how many active activity lines we have
 	activeCount := 0
@@ -153,10 +240,7 @@ func (s *SyncStats) Print() {
 	// Calculate stats using real-time bytes (completed + in-progress)
 	totalTransferred := s.getTotalBytesTransferred()
 	elapsed := time.Since(s.startTime)
-	speed := int64(0)
-	if elapsed.Seconds() > 0 {
-		speed = int64(float64(totalTransferred) / elapsed.Seconds())
-	}
+	speed := s.getGlobalSpeedLocked()
 
 	// Calculate percentage if total is known
 	progressStr := ""

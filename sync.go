@@ -174,19 +174,22 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 				// Progress callback for this file
 				onProgress := func(written, total int64) {
 					stats.SetSlotProgress(activitySlot, written)
+					speed := stats.GetSlotSpeed(activitySlot)
 					if total > 0 {
 						pct := float64(written) / float64(total) * 100
-						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%.0f%% %s/%s%s",
+						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%.0f%% %s/%s @ %s/s%s",
 							colorCyan, colorReset,
 							file.Name,
 							colorDim, pct,
 							formatBytes(written), formatBytes(total),
+							formatBytes(speed),
 							colorReset))
 					} else {
-						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%s%s",
+						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%s @ %s/s%s",
 							colorCyan, colorReset,
 							file.Name,
 							colorDim, formatBytes(written),
+							formatBytes(speed),
 							colorReset))
 					}
 				}
@@ -199,7 +202,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 					errLog.Log("Error downloading %s: %v", file.Name, err)
 					return
 				}
-				stats.IncrementDownloaded(bytes)
+				stats.IncrementDownloaded(activitySlot, bytes)
 				stats.SetActivity(activitySlot, fmt.Sprintf("%s✓%s %s %s(%s)%s", colorGreen, colorReset, file.Name, colorDim, formatBytes(bytes), colorReset))
 			} else {
 				stats.IncrementSkipped(file.Size)
