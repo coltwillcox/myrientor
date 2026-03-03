@@ -111,7 +111,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 	stopStats := make(chan struct{})
 
 	// Print initial empty lines for activities and stats
-	initialLines := stats.activeSlots + 4
+	initialLines := stats.activeSlots + 5
 	for range initialLines {
 		fmt.Println()
 	}

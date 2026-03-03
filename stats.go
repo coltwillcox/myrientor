@@ -12,25 +12,25 @@ type speedSample struct {
 }
 
 type SyncStats struct {
-	mu                     sync.Mutex
-	filesTotal             int
-	filesChecked           int
-	filesDownloaded        int
-	filesDeleted           int
-	filesSkipped           int
-	filesErrors            int
-	bytesDownloaded        int64   // Completed bytes including skipped (for transfer progress display)
-	bytesActuallyDownloaded int64  // Only actual downloads, for speed calculation
-	bytesInProgress        []int64 // Current progress per slot
-	slotBytesBase          []int64 // Cumulative completed bytes per slot (for monotonic speed samples)
-	totalBytes             int64
-	startTime              time.Time
-	activities             []string       // Track current activity in each slot
-	activeSlots            int            // Number of activity slots to display (min of maxConcurrent and file count)
-	lastPrintedLines       int            // Number of lines printed in last Print() call (for cursor positioning)
-	maxConcurrent          int            // Maximum concurrent downloads
-	globalSpeedSamples     []speedSample  // Sliding window for global download speed
-	slotSpeedSamples       [][]speedSample // Sliding window per slot for per-file speed
+	mu                      sync.Mutex
+	filesTotal              int
+	filesChecked            int
+	filesDownloaded         int
+	filesDeleted            int
+	filesSkipped            int
+	filesErrors             int
+	bytesDownloaded         int64   // Completed bytes including skipped (for transfer progress display)
+	bytesActuallyDownloaded int64   // Only actual downloads, for speed calculation
+	bytesInProgress         []int64 // Current progress per slot
+	slotBytesBase           []int64 // Cumulative completed bytes per slot (for monotonic speed samples)
+	totalBytes              int64
+	startTime               time.Time
+	activities              []string        // Track current activity in each slot
+	activeSlots             int             // Number of activity slots to display (min of maxConcurrent and file count)
+	lastPrintedLines        int             // Number of lines printed in last Print() call (for cursor positioning)
+	maxConcurrent           int             // Maximum concurrent downloads
+	globalSpeedSamples      []speedSample   // Sliding window for global download speed
+	slotSpeedSamples        [][]speedSample // Sliding window per slot for per-file speed
 }
 
 func NewSyncStats(maxConcurrent int) *SyncStats {
@@ -229,8 +229,8 @@ func (s *SyncStats) Print() {
 		}
 	}
 
-	// Calculate lines to print this time (activity lines + 4 stats lines)
-	linesToPrint := activeCount + 4
+	// Calculate lines to print this time (activity lines + 5 stats lines)
+	linesToPrint := activeCount + 5
 
 	// Move cursor up to overwrite previous lines
 	for i := range s.lastPrintedLines {
@@ -263,10 +263,10 @@ func (s *SyncStats) Print() {
 	}
 
 	// Print stats on separate lines
-	fmt.Printf("%sFiles:%s %d / %d\n",
+	fmt.Printf("%sFiles:   %s %d / %d\n",
 		colorBold, colorReset,
 		s.filesChecked, s.filesTotal)
-	fmt.Printf("       %s%d downloaded%s  %d skipped  %s%d deleted%s  %s%d errors%s\n",
+	fmt.Printf("          %s%d downloaded%s  %d skipped  %s%d deleted%s  %s%d errors%s\n",
 		colorGreen,
 		s.filesDownloaded,
 		colorReset,
@@ -278,17 +278,12 @@ func (s *SyncStats) Print() {
 		s.filesErrors,
 		colorReset)
 
-	fmt.Printf("%sTransfer:%s %s%s%s / %s%s @ %s%s/s%s\n",
-		colorBold,
-		colorReset,
-		colorCyan,
-		formatBytes(totalTransferred),
-		colorReset,
-		formatBytesIfKnown(s.totalBytes),
-		progressStr,
-		colorCyan,
-		formatBytes(speed),
-		colorReset)
+	fmt.Printf("%sTransfer:%s %s%s%s / %s%s\n",
+		colorBold, colorReset,
+		colorCyan, formatBytes(totalTransferred), colorReset,
+		formatBytesIfKnown(s.totalBytes), progressStr)
+	fmt.Printf("          %s@ %s/s%s\n",
+		colorCyan, formatBytes(speed), colorReset)
 
 	fmt.Printf("%sTime:%s %s%s%s",
 		colorBold,
