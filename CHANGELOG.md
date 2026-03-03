@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-03-03
+
+### Changed
+- Transfer speed (global and per-file) now uses a 10-second sliding window instead of total elapsed time
+- Global transfer speed excludes already-checked (skipped) files
+
+### Added
+- Per-file download speed shown in each slot's activity line
+
 ## [0.5.0] - 2026-03-02
 
 ### Added

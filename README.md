@@ -174,8 +174,8 @@ Starting sync of 2 device(s) from https://myrient.erista.me/
 [1/2] Syncing: files/No-Intro/Nintendo - Game Boy/
 ───────────────────────────────────────────────────────────────────────
 ✓ Cleaned up 3 obsolete file(s)
-↓ Downloading: Pokemon Red (USA).zip
-↓ Downloading: Tetris (World).zip
+↓ Pokemon Red (USA).zip  74.3% 663.21 MiB/892.45 MiB @ 11.20 MiB/s
+↓ Tetris (World).zip     31.1% 98.76 MiB/317.43 MiB @ 9.87 MiB/s
 Files: 1437 checked, 42 downloaded, 1395 skipped, 3 deleted, 0 errors
 Transfer: 892.45 MiB / 1.20 GiB (74.4%) @ 12.34 MiB/s
 Time: 1m23s
@@ -279,7 +279,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.5.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.6.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
