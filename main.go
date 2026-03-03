@@ -84,11 +84,11 @@ func main() {
 
 	for i, device := range devicesToSync {
 		fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, i+1, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
-		fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
 
 		if err := syncDirectory(device, remoteConfig.BaseURL, maxConcurrent, errLog); err != nil {
 			errLog.Log("Error syncing %s: %v", device.RemotePath, err)
 		}
+		fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
 	}
 
 	fmt.Printf("\n%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)

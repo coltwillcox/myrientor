@@ -14,17 +14,22 @@ func formatBytesIfKnown(bytes int64) string {
 
 func formatDuration(d time.Duration) string {
 	d = d.Round(time.Second)
+	days := d / (24 * time.Hour)
+	d -= days * 24 * time.Hour
 	h := d / time.Hour
 	d -= h * time.Hour
 	m := d / time.Minute
 	d -= m * time.Minute
 	s := d / time.Second
 
+	if days > 0 {
+		return fmt.Sprintf("%dd %02dh %02dm %02ds", days, h, m, s)
+	}
 	if h > 0 {
-		return fmt.Sprintf("%dh%02dm%02ds", h, m, s)
+		return fmt.Sprintf("%dh %02dm %02ds", h, m, s)
 	}
 	if m > 0 {
-		return fmt.Sprintf("%dm%02ds", m, s)
+		return fmt.Sprintf("%dm %02ds", m, s)
 	}
 	return fmt.Sprintf("%ds", s)
 }

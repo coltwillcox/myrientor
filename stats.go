@@ -229,8 +229,8 @@ func (s *SyncStats) Print() {
 		}
 	}
 
-	// Calculate lines to print this time (activity lines + 5 stats lines)
-	linesToPrint := activeCount + 5
+	// Calculate lines to print this time (activity lines + 6 stats lines)
+	linesToPrint := activeCount + 6
 
 	// Move cursor up to overwrite previous lines
 	for i := range s.lastPrintedLines {
@@ -285,10 +285,20 @@ func (s *SyncStats) Print() {
 	fmt.Printf("          %s@ %s/s%s\n",
 		colorCyan, formatBytes(speed), colorReset)
 
-	fmt.Printf("%sTime:%s %s%s%s",
-		colorBold,
-		colorReset,
-		colorBlue,
-		formatDuration(elapsed),
-		colorReset)
+	// Calculate ETA using overall rate (includes checked/skipped files)
+	etaStr := ""
+	if s.totalBytes > 0 && totalTransferred > 0 && totalTransferred < s.totalBytes {
+		rate := float64(totalTransferred) / elapsed.Seconds()
+		if rate > 0 {
+			remaining := s.totalBytes - totalTransferred
+			etaStr = formatDuration(time.Duration(float64(remaining)/rate) * time.Second)
+		}
+	}
+
+	fmt.Printf("%sTime:    %s %s%s%s\n",
+		colorBold, colorReset,
+		colorBlue, formatDuration(elapsed), colorReset)
+	if etaStr != "" {
+		fmt.Printf("          %sETA %s%s", colorBlue, etaStr, colorReset)
+	}
 }
