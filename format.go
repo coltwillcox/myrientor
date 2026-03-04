@@ -34,6 +34,25 @@ func formatDuration(d time.Duration) string {
 	return fmt.Sprintf("%ds", s)
 }
 
+// fitInTerminal crops name so that (overhead + len(name)) fits within the
+// terminal width. overhead is the number of display columns taken by the
+// fixed parts of the line (prefix, separator, suffix). If cropping is
+// necessary, the last character is replaced with "…".
+func fitInTerminal(name string, overhead int) string {
+	maxLen := terminalWidth() - overhead
+	if maxLen < 1 {
+		maxLen = 1
+	}
+	runes := []rune(name)
+	if len(runes) <= maxLen {
+		return name
+	}
+	if maxLen == 1 {
+		return "…"
+	}
+	return string(runes[:maxLen-1]) + "…"
+}
+
 func formatBytes(bytes int64) string {
 	const unit = 1024
 	if bytes < unit {

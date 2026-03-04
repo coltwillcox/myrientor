@@ -174,7 +174,8 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 			localFile := filepath.Join(device.LocalPath, file.Name)
 
 			// Check if file needs downloading
-			stats.SetActivity(activitySlot, fmt.Sprintf("%s→ Checking:%s %s", colorBlue, colorReset, file.Name))
+			// "→ Checking: " = 12 display columns
+			stats.SetActivity(activitySlot, fmt.Sprintf("%s→ Checking:%s %s", colorBlue, colorReset, fitInTerminal(file.Name, 12)))
 			needsDownload, err := shouldDownload(quickClient, remoteFile, localFile)
 			if err != nil {
 				stats.IncrementErrors()
@@ -188,23 +189,17 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 				onProgress := func(written, total int64) {
 					stats.SetSlotProgress(activitySlot, written)
 					speed := stats.GetSlotSpeed(activitySlot)
+					var suffix string
 					if total > 0 {
 						pct := float64(written) / float64(total) * 100
-						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%.0f%% %s/%s @ %s/s%s",
-							colorCyan, colorReset,
-							file.Name,
-							colorDim, pct,
-							formatBytes(written), formatBytes(total),
-							formatBytes(speed),
-							colorReset))
+						suffix = fmt.Sprintf("%.0f%% %s/%s @ %s/s", pct, formatBytes(written), formatBytes(total), formatBytes(speed))
 					} else {
-						stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%s @ %s/s%s",
-							colorCyan, colorReset,
-							file.Name,
-							colorDim, formatBytes(written),
-							formatBytes(speed),
-							colorReset))
+						suffix = fmt.Sprintf("%s @ %s/s", formatBytes(written), formatBytes(speed))
 					}
+					// "↓ " (2) + " " separator (1) + suffix
+					name := fitInTerminal(file.Name, 3+len(suffix))
+					stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%s%s",
+						colorCyan, colorReset, name, colorDim, suffix, colorReset))
 				}
 
 				bytes, err := downloadFile(downloadClient, remoteFile, localFile, onProgress)
@@ -216,7 +211,9 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 					return
 				}
 				stats.IncrementDownloaded(activitySlot, bytes)
-				stats.SetActivity(activitySlot, fmt.Sprintf("%s✓%s %s %s(%s)%s", colorGreen, colorReset, file.Name, colorDim, formatBytes(bytes), colorReset))
+				suffix := fmt.Sprintf("(%s)", formatBytes(bytes))
+				// "✓ " (2) + " " separator (1) + suffix
+				stats.SetActivity(activitySlot, fmt.Sprintf("%s✓%s %s %s%s%s", colorGreen, colorReset, fitInTerminal(file.Name, 3+len(suffix)), colorDim, suffix, colorReset))
 			} else {
 				stats.IncrementSkipped(file.Size)
 				stats.ClearActivity(activitySlot)
