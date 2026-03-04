@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-03-04
+
+### Added
+- Drain hotkey (`q` / `Q`): stops queuing new files but lets active downloads finish
+- When draining, remaining queued devices are also skipped
+- `[ draining ]` indicator shown in stats display while drain is active
+- Activity line length capped to terminal width; filename cropped with `…` if needed
+- Native drain hotkey support on macOS (`TIOCGETA`/`TIOCSETA`) and Windows (console API)
+- Terminal width queried via `TIOCGWINSZ` on Linux/macOS and `GetConsoleScreenBufferInfo` on Windows
+
 ## [0.7.0] - 2026-03-03
 
 ### Added

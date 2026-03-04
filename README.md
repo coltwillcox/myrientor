@@ -47,6 +47,7 @@
 │   ◤ Smart Sync - Only downloads what's changed (size + timestamp check)   │
 │   ◤ Auto Cleanup - Purges obsolete local files like digital dust          │
 │   ◤ Real-time Stats - Watch the bytes flow like rain on a neon sign       │
+│   ◤ Drain Hotkey - Press q to finish active downloads and stop gracefully │
 │   ◤ 200+ Presets - MAME, No-Intro, arcade boards, vintage computers       │
 │                                                                           │
 └───────────────────────────────────────────────────────────────────────────┘
@@ -151,6 +152,14 @@ Settings priority: **command-line flags** > **local.json** > **defaults**
 ./myrientor -sync gb -concurrent 4
 ```
 
+### Runtime Controls
+
+| Key | Action |
+|-----|--------|
+| `q` / `Q` | Drain: finish active downloads, skip remaining queue |
+
+Pressing `q` during a sync lets active downloads complete normally, then stops without starting any new ones. All remaining queued devices are also skipped. The stats display shows `[ draining ]` while this is active.
+
 ### Available Vaults Include:
 <div align="center">
 <pre>
@@ -177,7 +186,7 @@ Starting sync of 2 device(s) from https://myrient.erista.me/
 ↓ Pokemon Red (USA).zip  74.3% 663.21 MiB/892.45 MiB @ 11.20 MiB/s
 ↓ Tetris (World).zip     31.1% 98.76 MiB/317.43 MiB @ 9.87 MiB/s
 Files:    1437 / 1440
-          42 downloaded  1395 skipped  3 deleted  0 errors
+          42 downloaded  1395 skipped  3 deleted  0 errors  [ draining ]
 Transfer: 892.45 MiB / 1.20 GiB (74.4%)
           @ 12.34 MiB/s
 Time:     1m 23s
@@ -282,7 +291,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.7.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.8.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
