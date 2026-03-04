@@ -25,7 +25,7 @@ type FileInfo struct {
 	Size int64
 }
 
-func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *ErrorLogger) error {
+func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *ErrorLogger) (drained bool, err error) {
 	stats := NewSyncStats(maxConcurrent)
 
 	// Client for quick operations (HEAD requests, directory listings)
@@ -58,12 +58,12 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 	remoteURL := baseURL + device.RemotePath
 	filesInfo, err := getDirectoryListing(quickClient, remoteURL)
 	if err != nil {
-		return fmt.Errorf("failed to get directory listing: %w", err)
+		return false, fmt.Errorf("failed to get directory listing: %w", err)
 	}
 
 	// Create local directory
 	if err := os.MkdirAll(device.LocalPath, 0755); err != nil {
-		return fmt.Errorf("failed to create local directory: %w", err)
+		return false, fmt.Errorf("failed to create local directory: %w", err)
 	}
 
 	// Filter files (exclude systeminfo.txt and directories)
@@ -130,9 +130,32 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 		}
 	}()
 
+	drainCh, waitHotkey := listenForDrain(stopStats)
+	draining := false
+
 	for _, fileInfo := range filesToSync {
+		select {
+		case <-drainCh:
+			draining = true
+			stats.SetDraining()
+		default:
+		}
+		if draining {
+			break
+		}
+
+		// Acquire semaphore slot; also watch for drain signal while blocked.
+		select {
+		case sem <- struct{}{}:
+		case <-drainCh:
+			draining = true
+			stats.SetDraining()
+		}
+		if draining {
+			break
+		}
+
 		wg.Add(1)
-		sem <- struct{}{}  // Acquire semaphore
 		slot := <-slotChan // Get available slot
 
 		go func(file FileInfo, activitySlot int) {
@@ -203,13 +226,14 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 
 	wg.Wait()
 	close(stopStats)
+	waitHotkey() // Restore terminal before final print
 
 	// Print final stats
 	stats.Print()
 	fmt.Printf("\n%s✓ Sync complete%s\n", colorGreen, colorReset)
 	fmt.Println()
 
-	return nil
+	return draining, nil
 }
 
 func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *SyncStats, errLog *ErrorLogger) error {

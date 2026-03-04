@@ -31,6 +31,7 @@ type SyncStats struct {
 	maxConcurrent           int             // Maximum concurrent downloads
 	globalSpeedSamples      []speedSample   // Sliding window for global download speed
 	slotSpeedSamples        [][]speedSample // Sliding window per slot for per-file speed
+	draining                bool            // True when drain hotkey was pressed
 }
 
 func NewSyncStats(maxConcurrent int) *SyncStats {
@@ -42,6 +43,12 @@ func NewSyncStats(maxConcurrent int) *SyncStats {
 		slotSpeedSamples: make([][]speedSample, maxConcurrent),
 		maxConcurrent:    maxConcurrent,
 	}
+}
+
+func (s *SyncStats) SetDraining() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.draining = true
 }
 
 func (s *SyncStats) SetFilesTotal(n int) {
@@ -266,7 +273,11 @@ func (s *SyncStats) Print() {
 	fmt.Printf("%sFiles:   %s %d / %d\n",
 		colorBold, colorReset,
 		s.filesChecked, s.filesTotal)
-	fmt.Printf("          %s%d downloaded%s  %d skipped  %s%d deleted%s  %s%d errors%s\n",
+	drainingStr := ""
+	if s.draining {
+		drainingStr = fmt.Sprintf("  %s[ draining ]%s", colorYellow, colorReset)
+	}
+	fmt.Printf("          %s%d downloaded%s  %d skipped  %s%d deleted%s  %s%d errors%s%s\n",
 		colorGreen,
 		s.filesDownloaded,
 		colorReset,
@@ -276,7 +287,8 @@ func (s *SyncStats) Print() {
 		colorReset,
 		colorRed,
 		s.filesErrors,
-		colorReset)
+		colorReset,
+		drainingStr)
 
 	fmt.Printf("%sTransfer:%s %s%s%s / %s%s\n",
 		colorBold, colorReset,
