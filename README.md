@@ -291,7 +291,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.8.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.8.1 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
