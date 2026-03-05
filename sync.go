@@ -93,7 +93,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 
 	// Clean up obsolete local files
 	if err := cleanupObsoleteFiles(device.LocalPath, remoteFileSet, stats, errLog); err != nil {
-		errLog.Log("Warning: failed to cleanup obsolete files in %s: %v", device.LocalPath, err)
+		errLog.Log("%s: failed to cleanup obsolete files: %v", device.LocalPath, err)
 	}
 
 	// Sync files with concurrency control
@@ -180,7 +180,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 			if err != nil {
 				stats.IncrementErrors()
 				stats.ClearActivity(activitySlot)
-				errLog.Log("Error checking %s: %v", file.Name, err)
+				errLog.Log("%s: error checking %s: %v", device.LocalPath, file.Name, err)
 				return
 			}
 
@@ -207,7 +207,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 				if err != nil {
 					stats.IncrementErrors()
 					stats.ClearActivity(activitySlot)
-					errLog.Log("Error downloading %s: %v", file.Name, err)
+					errLog.Log("%s: error downloading %s: %v", device.LocalPath, file.Name, err)
 					return
 				}
 				stats.IncrementDownloaded(activitySlot, bytes)
@@ -263,7 +263,7 @@ func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *
 			localFile := filepath.Join(localPath, filename)
 			if err := os.Remove(localFile); err != nil {
 				stats.IncrementErrors()
-				errLog.Log("Failed to remove %s: %v", localFile, err)
+				errLog.Log("%s: failed to remove %s: %v", localPath, localFile, err)
 			} else {
 				stats.IncrementDeleted()
 				deletedCount++
