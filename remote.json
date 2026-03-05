@@ -1604,17 +1604,17 @@
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sega - Dreamcast/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "dreamcast/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sega - Dreamcast (Aftermarket)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "dreamcast/non-redump/aftermarket"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sega - Dreamcast (Private)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "dreamcast/non-redump/private"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sega - Nu/",
@@ -1964,7 +1964,7 @@
 		{
 			"remote_path": "files/No-Intro/Source Code - Atari - Atari 2600 (Aftermarket)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "atari2600/source-code/aftermarket"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - IBM - PC and Compatibles/",
@@ -2019,7 +2019,7 @@
 		{
 			"remote_path": "files/No-Intro/Source Code - Sega - DreamCast/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "dreamcast/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - VM Labs - NUON/",
@@ -2084,12 +2084,12 @@
 		{
 			"remote_path": "files/No-Intro/Unofficial - Nintendo - Nintendo 3DS (Digital) (Updates and DLC) (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "n3ds/unofficial/digital/updates-and-dlc/decrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Nintendo - Nintendo 3DS (Digital) (Updates and DLC) (Encrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "n3ds/unofficial/digital/updates-and-dlc/encrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Nintendo - Wii (Digital) (Deprecated) (WAD)/",
