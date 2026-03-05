@@ -864,7 +864,7 @@
 		{
 			"remote_path": "files/No-Intro/Microsoft - MSX/",
 			"sync": false,
-			"local_path": "msx/"
+			"local_path": "msx"
 		},
 		{
 			"remote_path": "files/No-Intro/Microsoft - MSX (Aftermarket)/",
@@ -1454,7 +1454,7 @@
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Atari - Atari Jaguar CD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "atarijaguarcd/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Audio CD/",
@@ -1469,7 +1469,7 @@
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Capcom - Play System III/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "cps3/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Commodore - Amiga CD/",
@@ -1524,27 +1524,27 @@
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Microsoft - Xbox/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "xbox/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Microsoft - Xbox 360/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "xbox360/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - NEC - PC Engine CD + TurboGrafx CD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "tg-cd/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - NEC - PC Engine CD + TurboGrafx CD (Aftermarket)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "tg-cd/non-redump/aftermarket"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - NEC - PC-88/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "pc88/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Namco - Purikura/",
@@ -1554,42 +1554,42 @@
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Nintendo - Nintendo GameCube/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "gc/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Nintendo - Nintendo GameCube (Aftermarket)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "gc/non-redump/aftermarket"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Nintendo - Nintendo GameCube (Private)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "gc/non-redump/private"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Nintendo - Wii/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "wii/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Nintendo - Wii U/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "wiiu/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Panasonic - 3DO Interactive Multiplayer/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "3do/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Philips - CD-i/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "cdimono1/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Philips - CD-i (Aftermarket)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "cdimono1/non-redump/aftermarket"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Playmaji - Polymega/",
@@ -1639,17 +1639,17 @@
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sega - Sega Mega CD + Sega CD/",
 			"sync": false,
-			"local_path": "megacd"
+			"local_path": "megacd/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sega - Sega Mega CD + Sega CD (Aftermarket)/",
 			"sync": false,
-			"local_path": "megacd/aftermarket"
+			"local_path": "megacd/non-redump/aftermarket"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sega - Sega Saturn/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "saturn/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sega NAOMI Satellite Terminal PC/",
@@ -1664,22 +1664,22 @@
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sony - PlayStation/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psx/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sony - PlayStation 2/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps2/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sony - PlayStation 3/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sony - PlayStation Portable/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/non-redump"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Sony Electronic Book/",
@@ -1874,37 +1874,37 @@
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation (PS one Classics) (PSN)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psx/psn"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation 3 (Development Kit Hard Drives) (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/development-kit-hard-drives/decrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation 3 (PSN) (Avatars)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/psn/avatars"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation 3 (PSN) (Content)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/psn/content"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation 3 (PSN) (DLC)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/psn/dlc"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation 3 (PSN) (Themes)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/psn/themes"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation 3 (PSN) (Updates)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/psn/updates"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation Mobile (PSN)/",
@@ -1914,32 +1914,32 @@
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation Portable (PSN) (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/psn/decrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation Portable (PSN) (Encrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/psn/encrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation Portable (PSN) (Minis) (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/psn/minis/decrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation Portable (PSN) (Minis) (Encrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/psn/minis/encrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation Vita (PSN) (Content)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psvita/psn/content"
 		},
 		{
 			"remote_path": "files/No-Intro/Sony - PlayStation Vita (PSN) (Updates)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psvita/psn/updates"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Apple - II/",
@@ -1954,7 +1954,7 @@
 		{
 			"remote_path": "files/No-Intro/Source Code - Arcade/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "arcade/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Atari - 8-bit Family/",
@@ -1974,42 +1974,42 @@
 		{
 			"remote_path": "files/No-Intro/Source Code - Mobile - Palm OS/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "palm/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Nintendo - Game Boy Advance/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "gba/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Nintendo - Game Boy Color/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "gbc/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Nintendo - Nintendo DS/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "nds/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Nintendo - Nintendo Entertainment System/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "nes/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Nintendo - Nintendo GameCube/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "gc/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Nintendo - Super Nintendo Entertainment System/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "snes/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Panasonic - 3DO Interactive Multiplayer/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "3do/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Panasonic - M2/",
@@ -2049,7 +2049,7 @@
 		{
 			"remote_path": "files/No-Intro/Tiger - Game.com/",
 			"sync": false,
-			"local_path": "ti99"
+			"local_path": "gamecom"
 		},
 		{
 			"remote_path": "files/No-Intro/Tiger - Gizmondo/",
@@ -2079,7 +2079,7 @@
 		{
 			"remote_path": "files/No-Intro/Unofficial - Microsoft - Xbox 360 (Title Updates)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "xbox360/unofficial/title-updates"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Nintendo - Nintendo 3DS (Digital) (Updates and DLC) (Decrypted)/",
@@ -2094,17 +2094,17 @@
 		{
 			"remote_path": "files/No-Intro/Unofficial - Nintendo - Wii (Digital) (Deprecated) (WAD)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "wii/unofficial/digital/deprecated/wad"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Nintendo - Wii (Digital) (Split DLC) (Deprecated) (WAD)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "wii/unofficial/digital/split-dlc/deprecated/wad"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Nintendo - Wii U (Digital) (Deprecated)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "wiiu/unofficial/digital/deprecated"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Obscure Gamers/",
@@ -2114,62 +2114,62 @@
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation 3 (BD-Video Extras)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/unofficial/bd-video-extras"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation 3 (PSN) (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "ps3/unofficial/psn/decrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Portable (PSN) (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/unofficial/decrypted"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Portable (PSX2PSP)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/unofficial/psx2psp"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Portable (UMD Music)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/unofficial/umd-music"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Portable (UMD Video)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psp/unofficial/umd-video"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Vita (BlackFinPSV)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psvita/unofficial/blackfinpsv"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Vita (NoNpDrm)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psvita/unofficial/nonpdrm"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Vita (PSN) (Decrypted) (NoNpDrm)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psvita/unofficial/psn/decrypted/nonpdrm"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Vita (PSN) (Decrypted) (VPK)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psvita/unofficial/psn/decrypted/vpk"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Vita (PSVgameSD)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psvita/unofficial/psvgamesd"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Sony - PlayStation Vita (VPK)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "psvita/unofficial/vpk"
 		},
 		{
 			"remote_path": "files/No-Intro/Unofficial - Super Mario Maker Courses (WARC)/",
