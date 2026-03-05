@@ -1494,12 +1494,12 @@
 		{
 			"remote_path": "files/No-Intro/Non-Redump - IBM - PC Compatible (Discs)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "pc/non-redump/discs"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - IBM - PC Compatible (Discs) (Hentai)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "pc/non-redump/discs/hentai"
 		},
 		{
 			"remote_path": "files/No-Intro/Non-Redump - Konami - M2/",
@@ -1969,7 +1969,7 @@
 		{
 			"remote_path": "files/No-Intro/Source Code - IBM - PC and Compatibles/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "pc/source-code"
 		},
 		{
 			"remote_path": "files/No-Intro/Source Code - Mobile - Palm OS/",
@@ -2034,7 +2034,7 @@
 		{
 			"remote_path": "files/No-Intro/TEMP IBM - PC and Compatibles (Digital) (Games for Windows Marketplace)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "pc/temp/digital/games-for-windows-marketplace"
 		},
 		{
 			"remote_path": "files/No-Intro/TeleNova - Compis (Flux)/",
