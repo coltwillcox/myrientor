@@ -27,7 +27,7 @@ const (
 func main() {
 	showVersion := flag.Bool("version", false, "Show version information")
 	maxConcurrentFlag := flag.Int("concurrent", 0, "Maximum concurrent downloads")
-	syncFlag := flag.String("sync", "", "Sync specific device by local_path")
+	syncFlag := flag.String("sync", "", "Sync specific device by remote_path")
 	flag.Parse()
 
 	if *showVersion {
@@ -58,7 +58,7 @@ func main() {
 	var devicesToSync []Device
 	if *syncFlag != "" {
 		// Find specific device by local_path
-		device := remoteConfig.FindByLocalPath(*syncFlag)
+		device := remoteConfig.FindByRemotePath(*syncFlag)
 		if device == nil {
 			fmt.Fprintf(os.Stderr, "%s✗ Device not found: %s%s\n", colorRed, *syncFlag, colorReset)
 			os.Exit(1)

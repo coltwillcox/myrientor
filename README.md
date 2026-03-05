@@ -142,14 +142,14 @@ Settings priority: **command-line flags** > **local.json** > **defaults**
 |------|-------------|---------|
 | `-version` | Show version information | `./myrientor -version` |
 | `-concurrent` | Set number of parallel downloads | `./myrientor -concurrent 8` |
-| `-sync` | Sync specific device by `local_path` | `./myrientor -sync gb` |
+| `-sync` | Sync specific device by `remote_path` | `./myrientor -sync "No-Intro/Nintendo - Game Boy/"` |
 
 ```bash
 # Show version
 ./myrientor -version
 
 # Sync only Game Boy ROMs with 4 parallel downloads
-./myrientor -sync gb -concurrent 4
+./myrientor -sync "No-Intro/Nintendo - Game Boy/" -concurrent 4
 ```
 
 ### Runtime Controls

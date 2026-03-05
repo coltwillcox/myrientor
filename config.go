@@ -78,13 +78,13 @@ func (r *RemoteConfig) SyncableCount() int {
 	return count
 }
 
-func (r *RemoteConfig) FindByLocalPath(localPath string) *Device {
+func (r *RemoteConfig) FindByRemotePath(remotePath string) *Device {
 	if r == nil {
 		return nil
 	}
 
 	for i := range r.Devices {
-		if r.Devices[i].LocalPath == localPath {
+		if r.Devices[i].RemotePath == remotePath {
 			return &r.Devices[i]
 		}
 	}

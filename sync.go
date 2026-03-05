@@ -61,8 +61,9 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 		return false, fmt.Errorf("failed to get directory listing: %w", err)
 	}
 
-	// Create local directory
-	if err := os.MkdirAll(device.LocalPath, 0755); err != nil {
+	// Local directory mirrors the remote path structure under local_path.
+	localDir := filepath.Join(device.LocalPath, device.RemotePath)
+	if err := os.MkdirAll(localDir, 0755); err != nil {
 		return false, fmt.Errorf("failed to create local directory: %w", err)
 	}
 
@@ -92,7 +93,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 	}
 
 	// Clean up obsolete local files
-	if err := cleanupObsoleteFiles(device.LocalPath, remoteFileSet, stats, errLog); err != nil {
+	if err := cleanupObsoleteFiles(localDir, remoteFileSet, stats, errLog); err != nil {
 		errLog.Log("%s: failed to cleanup obsolete files: %v", device.LocalPath, err)
 	}
 
@@ -171,7 +172,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 			// URL-encode the filename for the remote request
 			escapedFilename := url.PathEscape(file.Name)
 			remoteFile := remoteURL + escapedFilename
-			localFile := filepath.Join(device.LocalPath, file.Name)
+			localFile := filepath.Join(localDir, file.Name)
 
 			// Check if file needs downloading
 			// "→ Checking: " = 12 display columns
