@@ -228,7 +228,7 @@ func (s *SyncStats) Print() {
 		s.globalSpeedSamples = s.globalSpeedSamples[1:]
 	}
 
-	// Count how many active activity lines we have
+	// Count active activity lines
 	activeCount := 0
 	for i := range s.activeSlots {
 		if s.activities[i] != "" {
@@ -236,68 +236,17 @@ func (s *SyncStats) Print() {
 		}
 	}
 
-	// Calculate lines to print this time (activity lines + 6 stats lines)
-	linesToPrint := activeCount + 6
-
-	// Move cursor up to overwrite previous lines
-	for i := range s.lastPrintedLines {
-		if i > 0 {
-			fmt.Print("\033[A") // Move cursor up one line
-		}
-		fmt.Print("\r\033[K") // Clear entire line
-	}
-
-	// Print only non-empty activity lines
-	for i := range s.activeSlots {
-		if s.activities[i] != "" {
-			fmt.Printf("%s\n", s.activities[i])
-		}
-	}
-
-	// Remember how many lines we printed for next time
-	s.lastPrintedLines = linesToPrint
-
-	// Calculate stats using real-time bytes (completed + in-progress)
+	// Calculate stats
 	totalTransferred := s.getTotalBytesTransferred()
 	elapsed := time.Since(s.startTime)
 	speed := s.getGlobalSpeedLocked()
 
-	// Calculate percentage if total is known
 	progressStr := ""
 	if s.totalBytes > 0 {
 		percentage := float64(totalTransferred) / float64(s.totalBytes) * 100
 		progressStr = fmt.Sprintf(" (%.1f%%)", percentage)
 	}
 
-	// Print stats on separate lines
-	fmt.Printf("%sFiles:   %s %d / %d\n",
-		colorBold, colorReset,
-		s.filesChecked, s.filesTotal)
-	drainingStr := ""
-	if s.draining {
-		drainingStr = fmt.Sprintf("  %s[ draining ]%s", colorYellow, colorReset)
-	}
-	fmt.Printf("          %s%d downloaded%s  %d skipped  %s%d deleted%s  %s%d errors%s%s\n",
-		colorGreen,
-		s.filesDownloaded,
-		colorReset,
-		s.filesSkipped,
-		colorYellow,
-		s.filesDeleted,
-		colorReset,
-		colorRed,
-		s.filesErrors,
-		colorReset,
-		drainingStr)
-
-	fmt.Printf("%sTransfer:%s %s%s%s / %s%s\n",
-		colorBold, colorReset,
-		colorCyan, formatBytes(totalTransferred), colorReset,
-		formatBytesIfKnown(s.totalBytes), progressStr)
-	fmt.Printf("          %s@ %s/s%s\n",
-		colorCyan, formatBytes(speed), colorReset)
-
-	// Calculate ETA using overall rate (includes checked/skipped files)
 	etaStr := ""
 	if s.totalBytes > 0 && totalTransferred > 0 && totalTransferred < s.totalBytes {
 		rate := float64(totalTransferred) / elapsed.Seconds()
@@ -307,10 +256,60 @@ func (s *SyncStats) Print() {
 		}
 	}
 
-	fmt.Printf("%sTime:    %s %s%s%s\n",
-		colorBold, colorReset,
-		colorBlue, formatDuration(elapsed), colorReset)
-	if etaStr != "" {
-		fmt.Printf("          %sETA %s%s", colorBlue, etaStr, colorReset)
+	drainingStr := ""
+	if s.draining {
+		drainingStr = fmt.Sprintf("  %s[ draining ]%s", colorYellow, colorReset)
 	}
+
+	// Build stats panel rows
+	rows := []string{
+		fmt.Sprintf("%sFiles:%s    %d / %d",
+			colorBold, colorReset, s.filesChecked, s.filesTotal),
+		fmt.Sprintf("          %s%d downloaded%s  %d skipped  %s%d deleted%s  %s%d errors%s%s",
+			colorGreen, s.filesDownloaded, colorReset,
+			s.filesSkipped,
+			colorYellow, s.filesDeleted, colorReset,
+			colorRed, s.filesErrors, colorReset,
+			drainingStr),
+		fmt.Sprintf("%sTransfer:%s %s%s%s / %s%s",
+			colorBold, colorReset,
+			colorCyan, formatBytes(totalTransferred), colorReset,
+			formatBytesIfKnown(s.totalBytes), progressStr),
+		fmt.Sprintf("          %s@ %s/s%s", colorCyan, formatBytes(speed), colorReset),
+		fmt.Sprintf("%sTime:%s     %s%s%s",
+			colorBold, colorReset, colorBlue, formatDuration(elapsed), colorReset),
+	}
+	if etaStr != "" {
+		rows = append(rows, fmt.Sprintf("          %sETA %s%s", colorBlue, etaStr, colorReset))
+	}
+
+	// linesToPrint: activity lines + empty line + top border + content rows + bottom border (no trailing \n)
+	linesToPrint := activeCount + 3 + len(rows)
+
+	// Move cursor up to overwrite previous output
+	for i := range s.lastPrintedLines {
+		if i > 0 {
+			fmt.Print("\033[A")
+		}
+		fmt.Print("\r\033[K")
+	}
+
+	// Print non-empty activity lines
+	for i := range s.activeSlots {
+		if s.activities[i] != "" {
+			fmt.Printf("%s\n", s.activities[i])
+		}
+	}
+
+	// Empty line separating activities from stats panel
+	fmt.Println()
+
+	// Stats panel
+	fmt.Println(panelTop())
+	for _, row := range rows {
+		fmt.Println(panelLine(row))
+	}
+	fmt.Print(panelBottom()) // no trailing newline — cursor stays on this line
+
+	s.lastPrintedLines = linesToPrint
 }

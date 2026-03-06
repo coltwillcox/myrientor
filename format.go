@@ -84,6 +84,76 @@ func fitInTerminal(name string, overhead int) string {
 	return string(runes[:maxLen-1]) + "…"
 }
 
+func devicePanel(index, total int, path string) string {
+	tw := terminalWidth()
+	counter := fmt.Sprintf(" %d/%d ", index, total)
+
+	// ┌──[ N/M ]──...──┐
+	topPrefixCols := 4 + len(counter) + 1 // ┌──[ + counter + ]
+	topDashes := max(
+		// -1 for ┐
+		tw-topPrefixCols-1, 0)
+	top := colorCyan + "┌──[" + colorBold + counter + colorReset + colorCyan + "]" + strings.Repeat("─", topDashes) + "┐" + colorReset
+
+	// │  Syncing: <path>   │
+	const syncPrefix = "  Syncing: "
+	inner := tw - 2
+	maxPathCols := max(inner-len(syncPrefix), 1)
+	runes := []rune(path)
+	if len(runes) > maxPathCols {
+		if maxPathCols == 1 {
+			path = "…"
+		} else {
+			path = string(runes[:maxPathCols-1]) + "…"
+		}
+		runes = []rune(path)
+	}
+	padding := max(inner-len(syncPrefix)-len(runes), 0)
+	middle := colorCyan + "│" + colorReset + syncPrefix + colorMagenta + path + colorReset + strings.Repeat(" ", padding) + colorCyan + "│" + colorReset
+
+	// └──...──┘
+	bottom := colorCyan + "└" + strings.Repeat("─", tw-2) + "┘" + colorReset
+
+	return top + "\n" + middle + "\n" + bottom
+}
+
+// stripANSI removes ANSI escape sequences from s so its display width can be measured.
+func stripANSI(s string) string {
+	var b strings.Builder
+	runes := []rune(s)
+	for i := 0; i < len(runes); i++ {
+		if runes[i] == '\033' && i+1 < len(runes) && runes[i+1] == '[' {
+			i += 2
+			for i < len(runes) && runes[i] != 'm' {
+				i++
+			}
+		} else {
+			b.WriteRune(runes[i])
+		}
+	}
+	return b.String()
+}
+
+func panelTop() string {
+	tw := terminalWidth()
+	return colorCyan + "┌" + strings.Repeat("─", tw-2) + "┐" + colorReset
+}
+
+// panelLine wraps content in a panel row: │  content...padding │
+// Content may contain ANSI codes; display width is measured by stripping them.
+func panelLine(content string) string {
+	tw := terminalWidth()
+	displayCols := len([]rune(stripANSI(content)))
+	available := tw - 4 // │ + 2-space left margin + │
+	padding := max(available-displayCols, 0)
+	return colorCyan + "│" + colorReset + "  " + content + strings.Repeat(" ", padding) + colorCyan + "│" + colorReset
+}
+
+func panelBottom() string {
+	tw := terminalWidth()
+	return colorCyan + "└" + strings.Repeat("─", tw-2) + "┘" + colorReset
+}
+
 func separatorDouble() string {
 	return colorDim + strings.Repeat("═", terminalWidth()) + colorReset
 }
