@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 // Version info - injected at build time via ldflags
@@ -87,7 +88,8 @@ func main() {
 
 		drained, err := syncDirectory(device, remoteConfig.BaseURL, maxConcurrent, errLog)
 		if err != nil {
-			errLog.Log("Error syncing %s: %v", device.RemotePath, err)
+			localDir := filepath.Join(device.LocalPath, device.RemotePath)
+			errLog.Log("%s: error syncing: %v", localDir, err)
 		}
 		fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
 		if drained {

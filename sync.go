@@ -94,7 +94,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 
 	// Clean up obsolete local files
 	if err := cleanupObsoleteFiles(localDir, remoteFileSet, stats, errLog); err != nil {
-		errLog.Log("%s: failed to cleanup obsolete files: %v", device.LocalPath, err)
+		errLog.Log("%s: error cleaning obsolete files: %v", localDir, err)
 	}
 
 	// Sync files with concurrency control
@@ -181,7 +181,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 			if err != nil {
 				stats.IncrementErrors()
 				stats.ClearActivity(activitySlot)
-				errLog.Log("%s: error checking %s: %v", device.LocalPath, file.Name, err)
+				errLog.Log("%s: error checking %s: %v", localDir, file.Name, err)
 				return
 			}
 
@@ -208,7 +208,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 				if err != nil {
 					stats.IncrementErrors()
 					stats.ClearActivity(activitySlot)
-					errLog.Log("%s: error downloading %s: %v", device.LocalPath, file.Name, err)
+					errLog.Log("%s: error downloading %s: %v", localDir, file.Name, err)
 					return
 				}
 				stats.IncrementDownloaded(activitySlot, bytes)
@@ -234,9 +234,9 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 	return draining, nil
 }
 
-func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *SyncStats, errLog *ErrorLogger) error {
+func cleanupObsoleteFiles(localDir string, remoteFiles map[string]bool, stats *SyncStats, errLog *ErrorLogger) error {
 	// Read local directory
-	entries, err := os.ReadDir(localPath)
+	entries, err := os.ReadDir(localDir)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return nil // Directory doesn't exist yet, nothing to clean
@@ -261,10 +261,10 @@ func cleanupObsoleteFiles(localPath string, remoteFiles map[string]bool, stats *
 
 		// If file doesn't exist remotely, delete it
 		if !remoteFiles[filename] {
-			localFile := filepath.Join(localPath, filename)
+			localFile := filepath.Join(localDir, filename)
 			if err := os.Remove(localFile); err != nil {
 				stats.IncrementErrors()
-				errLog.Log("%s: failed to remove %s: %v", localPath, localFile, err)
+				errLog.Log("%s: error removing %s: %v", localDir, localFile, err)
 			} else {
 				stats.IncrementDeleted()
 				deletedCount++
