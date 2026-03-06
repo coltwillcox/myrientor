@@ -248,12 +248,9 @@ func (s *SyncStats) Print() {
 	}
 
 	etaStr := ""
-	if s.totalBytes > 0 && totalTransferred > 0 && totalTransferred < s.totalBytes {
-		rate := float64(totalTransferred) / elapsed.Seconds()
-		if rate > 0 {
-			remaining := s.totalBytes - totalTransferred
-			etaStr = formatDuration(time.Duration(float64(remaining)/rate) * time.Second)
-		}
+	if s.totalBytes > 0 && speed > 0 && totalTransferred < s.totalBytes {
+		remaining := s.totalBytes - totalTransferred
+		etaStr = formatDuration(time.Duration(float64(remaining)/float64(speed)) * time.Second)
 	}
 
 	drainingStr := ""
