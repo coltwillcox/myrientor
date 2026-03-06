@@ -198,8 +198,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 			localFile := filepath.Join(fileLocalDir, file.Name)
 
 			// Check if file needs downloading
-			// "→ Checking: " = 12 display columns
-			stats.SetActivity(activitySlot, fmt.Sprintf("%s→ Checking:%s %s", colorBlue, colorReset, fitInTerminal(file.Name, 12)))
+			stats.SetActivity(activitySlot, activityLine(colorBlue+"→ Checking:"+colorReset+" ", 12, file.Name, ""))
 			needsDownload, err := shouldDownload(quickClient, remoteFile, localFile)
 			if err != nil {
 				stats.IncrementErrors()
@@ -220,10 +219,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 					} else {
 						suffix = fmt.Sprintf("%s @ %s/s", formatBytes(written), formatBytes(speed))
 					}
-					// "↓ " (2) + " " separator (1) + suffix
-					name := fitInTerminal(file.Name, 3+len(suffix))
-					stats.SetActivity(activitySlot, fmt.Sprintf("%s↓%s %s %s%s%s",
-						colorCyan, colorReset, name, colorDim, suffix, colorReset))
+					stats.SetActivity(activitySlot, activityLine(colorCyan+"↓"+colorReset+" ", 2, file.Name, suffix))
 				}
 
 				bytes, err := downloadFile(downloadClient, remoteFile, localFile, onProgress)
@@ -236,8 +232,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 				}
 				stats.IncrementDownloaded(activitySlot, bytes)
 				suffix := fmt.Sprintf("(%s)", formatBytes(bytes))
-				// "✓ " (2) + " " separator (1) + suffix
-				stats.SetActivity(activitySlot, fmt.Sprintf("%s✓%s %s %s%s%s", colorGreen, colorReset, fitInTerminal(file.Name, 3+len(suffix)), colorDim, suffix, colorReset))
+				stats.SetActivity(activitySlot, activityLine(colorGreen+"✓"+colorReset+" ", 2, file.Name, suffix))
 			} else {
 				stats.IncrementSkipped(file.Size)
 				stats.ClearActivity(activitySlot)

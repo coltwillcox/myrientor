@@ -75,7 +75,7 @@ func main() {
 	totalDevices := len(devicesToSync)
 
 	fmt.Printf("%s%sStarting sync of %d device(s) from %s%s\n", colorBold, colorCyan, totalDevices, remoteConfig.BaseURL, colorReset)
-	fmt.Printf("%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)
+	fmt.Println(separatorDouble())
 
 	for i, device := range devicesToSync {
 		fmt.Printf("\n%s[%d/%d]%s %sSyncing: %s%s\n", colorBold, i+1, totalDevices, colorReset, colorMagenta, device.RemotePath, colorReset)
@@ -85,13 +85,13 @@ func main() {
 			localDir := filepath.Join(device.LocalPath, device.RemotePath)
 			errLog.Log("%s: error syncing: %v", localDir, err)
 		}
-		fmt.Printf("%s───────────────────────────────────────────────────────────────────────%s\n", colorDim, colorReset)
+		fmt.Println(separatorSingle())
 		if drained {
 			break
 		}
 	}
 
-	fmt.Printf("\n%s═══════════════════════════════════════════════════════════════════════%s\n", colorDim, colorReset)
+	fmt.Println("\n" + separatorDouble())
 
 	// Display error summary
 	errorCount := errLog.Count()
