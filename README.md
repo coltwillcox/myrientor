@@ -142,14 +142,14 @@ Settings priority: **command-line flags** > **local.json** > **defaults**
 |------|-------------|---------|
 | `-version` | Show version information | `./myrientor -version` |
 | `-concurrent` | Set number of parallel downloads | `./myrientor -concurrent 8` |
-| `-sync` | Sync specific device by `remote_path` | `./myrientor -sync "No-Intro/Nintendo - Game Boy/"` |
+| `-sync` | Sync device(s) matching `local_path` or `remote_path` | `./myrientor -sync gb` |
 
 ```bash
 # Show version
 ./myrientor -version
 
 # Sync only Game Boy ROMs with 4 parallel downloads
-./myrientor -sync "No-Intro/Nintendo - Game Boy/" -concurrent 4
+./myrientor -sync gb -concurrent 4
 ```
 
 ### Runtime Controls
@@ -291,7 +291,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.10.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.11.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>
