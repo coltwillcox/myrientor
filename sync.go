@@ -21,8 +21,9 @@ const (
 )
 
 type FileInfo struct {
-	Name string
-	Size int64
+	Name   string
+	Size   int64
+	SubDir string // relative subdirectory using / separator, URL-decoded (empty for root)
 }
 
 func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *ErrorLogger) (drained bool, err error) {
@@ -54,9 +55,17 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 		Timeout: 0,
 	}
 
-	// Get directory listing
+	// Get directory listing, showing scanning progress for each directory entered.
 	remoteURL := baseURL + device.RemotePath
-	filesInfo, err := getDirectoryListing(quickClient, remoteURL)
+	fmt.Printf("%s  Scanning...%s", colorDim, colorReset)
+	filesInfo, err := getDirectoryListing(quickClient, remoteURL, func(subDir string) {
+		label := "root"
+		if subDir != "" {
+			label = subDir
+		}
+		fmt.Printf("\r%s  Scanning: %s%s\033[K", colorDim, fitInTerminal(label, 13), colorReset)
+	})
+	fmt.Printf("\r\033[K") // clear scanning line
 	if err != nil {
 		return false, fmt.Errorf("failed to get directory listing: %w", err)
 	}
@@ -67,18 +76,19 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 		return false, fmt.Errorf("failed to create local directory: %w", err)
 	}
 
-	// Filter files (exclude systeminfo.txt and directories)
+	// Build sync list and remote file set for cleanup.
+	// getDirectoryListing already excludes systeminfo.txt and directories.
 	var filesToSync []FileInfo
 	remoteFileSet := make(map[string]bool)
 	totalSize := int64(0)
 
 	for _, fileInfo := range filesInfo {
-		if fileInfo.Name == "systeminfo.txt" || strings.HasSuffix(fileInfo.Name, "/") {
-			continue
-		}
 		filesToSync = append(filesToSync, fileInfo)
-		remoteFileSet[fileInfo.Name] = true
-
+		relKey := fileInfo.Name
+		if fileInfo.SubDir != "" {
+			relKey = fileInfo.SubDir + "/" + fileInfo.Name
+		}
+		remoteFileSet[relKey] = true
 		totalSize += fileInfo.Size
 	}
 
@@ -169,10 +179,23 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 
 			stats.IncrementChecked()
 
-			// URL-encode the filename for the remote request
-			escapedFilename := url.PathEscape(file.Name)
-			remoteFile := remoteURL + escapedFilename
-			localFile := filepath.Join(localDir, file.Name)
+			// Build remote URL: re-encode each SubDir segment, then append filename.
+			var escapedSubDir strings.Builder
+			for seg := range strings.SplitSeq(file.SubDir, "/") {
+				if seg != "" {
+					escapedSubDir.WriteString(url.PathEscape(seg) + "/")
+				}
+			}
+			remoteFile := remoteURL + escapedSubDir.String() + url.PathEscape(file.Name)
+
+			// Build local path, creating the subdirectory if needed.
+			fileLocalDir := filepath.Join(localDir, filepath.FromSlash(file.SubDir))
+			if err := os.MkdirAll(fileLocalDir, 0755); err != nil {
+				stats.IncrementErrors()
+				errLog.Log("%s: failed to create directory: %v", fileLocalDir, err)
+				return
+			}
+			localFile := filepath.Join(fileLocalDir, file.Name)
 
 			// Check if file needs downloading
 			// "→ Checking: " = 12 display columns
@@ -181,7 +204,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 			if err != nil {
 				stats.IncrementErrors()
 				stats.ClearActivity(activitySlot)
-				errLog.Log("%s: error checking %s: %v", localDir, file.Name, err)
+				errLog.Log("%s: error checking %s: %v", fileLocalDir, file.Name, err)
 				return
 			}
 
@@ -208,7 +231,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 				if err != nil {
 					stats.IncrementErrors()
 					stats.ClearActivity(activitySlot)
-					errLog.Log("%s: error downloading %s: %v", localDir, file.Name, err)
+					errLog.Log("%s: error downloading %s: %v", fileLocalDir, file.Name, err)
 					return
 				}
 				stats.IncrementDownloaded(activitySlot, bytes)
@@ -235,41 +258,40 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 }
 
 func cleanupObsoleteFiles(localDir string, remoteFiles map[string]bool, stats *SyncStats, errLog *ErrorLogger) error {
-	// Read local directory
-	entries, err := os.ReadDir(localDir)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return nil // Directory doesn't exist yet, nothing to clean
-		}
-		return err
-	}
-
 	deletedCount := 0
 
-	// Check each local file
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue // Skip subdirectories
+	err := filepath.Walk(localDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return nil // skip inaccessible paths
+		}
+		if info.IsDir() {
+			return nil
 		}
 
-		filename := entry.Name()
+		relPath, err := filepath.Rel(localDir, path)
+		if err != nil {
+			return nil
+		}
+		relPath = filepath.ToSlash(relPath)
 
-		// Skip ignored files
-		if filename == "systeminfo.txt" {
-			continue
+		if filepath.Base(relPath) == "systeminfo.txt" {
+			return nil
 		}
 
-		// If file doesn't exist remotely, delete it
-		if !remoteFiles[filename] {
-			localFile := filepath.Join(localDir, filename)
-			if err := os.Remove(localFile); err != nil {
+		if !remoteFiles[relPath] {
+			if err := os.Remove(path); err != nil {
 				stats.IncrementErrors()
-				errLog.Log("%s: error removing %s: %v", localDir, localFile, err)
+				errLog.Log("%s: error removing %s: %v", localDir, path, err)
 			} else {
 				stats.IncrementDeleted()
 				deletedCount++
 			}
 		}
+		return nil
+	})
+
+	if err != nil {
+		return err
 	}
 
 	if deletedCount > 0 {
@@ -279,7 +301,14 @@ func cleanupObsoleteFiles(localDir string, remoteFiles map[string]bool, stats *S
 	return nil
 }
 
-func getDirectoryListing(client *http.Client, dirURL string) ([]FileInfo, error) {
+func getDirectoryListing(client *http.Client, dirURL string, onDir func(string)) ([]FileInfo, error) {
+	return getDirectoryListingRec(client, dirURL, "", onDir)
+}
+
+func getDirectoryListingRec(client *http.Client, dirURL, subDir string, onDir func(string)) ([]FileInfo, error) {
+	if onDir != nil {
+		onDir(subDir)
+	}
 	resp, err := client.Get(dirURL)
 	if err != nil {
 		return nil, err
@@ -295,63 +324,75 @@ func getDirectoryListing(client *http.Client, dirURL string) ([]FileInfo, error)
 		return nil, err
 	}
 
-	// Parse simple directory listing (HTML)
 	var files []FileInfo
 	lines := strings.Split(string(body), "\n")
 
 	for i := range lines {
 		line := lines[i]
 
-		// Look for href="..." patterns
-		if strings.Contains(line, "href=") {
-			start := strings.Index(line, "href=\"")
-			if start == -1 {
-				continue
-			}
-			start += 6
-			end := strings.Index(line[start:], "\"")
-			if end == -1 {
-				continue
-			}
-
-			href := line[start : start+end]
-
-			// Skip parent directory, absolute URLs, anchors, and query strings
-			if href == "../" ||
-				strings.HasPrefix(href, "http") ||
-				strings.HasPrefix(href, "#") ||
-				strings.HasPrefix(href, "/") ||
-				strings.HasPrefix(href, "?") {
-				continue
-			}
-
-			// Skip if href contains query string (e.g., "file.zip?param=value")
-			if strings.Contains(href, "?") {
-				continue
-			}
-
-			// Unescape URL encoding (e.g., %5B -> [, %20 -> space)
-			unescaped, err := url.QueryUnescape(href)
-			if err != nil {
-				// If unescaping fails, use the original
-				unescaped = href
-			}
-
-			// Look for size in the next line with class="size"
-			size := int64(0)
-			for j := i; j < len(lines) && j < i+3; j++ {
-				if strings.Contains(lines[j], "class=\"size\"") {
-					sizeStr := extractSizeFromHTML(lines[j])
-					size = parseSizeString(sizeStr)
-					break
-				}
-			}
-
-			files = append(files, FileInfo{
-				Name: unescaped,
-				Size: size,
-			})
+		if !strings.Contains(line, "href=") {
+			continue
 		}
+		start := strings.Index(line, "href=\"")
+		if start == -1 {
+			continue
+		}
+		start += 6
+		end := strings.Index(line[start:], "\"")
+		if end == -1 {
+			continue
+		}
+
+		href := line[start : start+end]
+
+		// Skip dot-relative paths (./, ../), absolute URLs, anchors, and query strings.
+		if strings.HasPrefix(href, ".") ||
+			strings.HasPrefix(href, "http") ||
+			strings.HasPrefix(href, "#") ||
+			strings.HasPrefix(href, "/") ||
+			strings.HasPrefix(href, "?") ||
+			strings.Contains(href, "?") {
+			continue
+		}
+
+		decoded, err := url.QueryUnescape(href)
+		if err != nil {
+			decoded = href
+		}
+
+		if strings.HasSuffix(href, "/") {
+			// Subdirectory — recurse into it.
+			subDirName := strings.TrimSuffix(decoded, "/")
+			childSubDir := subDirName
+			if subDir != "" {
+				childSubDir = subDir + "/" + subDirName
+			}
+			subFiles, err := getDirectoryListingRec(client, dirURL+href, childSubDir, onDir)
+			if err == nil {
+				files = append(files, subFiles...)
+			}
+			continue
+		}
+
+		// File — skip systeminfo.txt in any directory.
+		if decoded == "systeminfo.txt" {
+			continue
+		}
+
+		size := int64(0)
+		for j := i; j < len(lines) && j < i+3; j++ {
+			if strings.Contains(lines[j], "class=\"size\"") {
+				sizeStr := extractSizeFromHTML(lines[j])
+				size = parseSizeString(sizeStr)
+				break
+			}
+		}
+
+		files = append(files, FileInfo{
+			Name:   decoded,
+			Size:   size,
+			SubDir: subDir,
+		})
 	}
 
 	return files, nil
@@ -404,23 +445,6 @@ func parseSizeString(sizeStr string) int64 {
 	}
 
 	return int64(value * float64(multiplier))
-}
-
-func needsSync(localPath string, expectedSize int64) bool {
-	info, err := os.Stat(localPath)
-	if os.IsNotExist(err) {
-		return true // File doesn't exist
-	}
-	if err != nil {
-		return true // Error reading file, better to re-download
-	}
-
-	// If sizes don't match, needs sync
-	if expectedSize > 0 && info.Size() != expectedSize {
-		return true
-	}
-
-	return false // File exists and size matches
 }
 
 func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, error) {

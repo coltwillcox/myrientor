@@ -2,7 +2,17 @@
 	"base_url": "https://myrient.erista.me/files/",
 	"devices": [
 		{
+			"remote_path": "MAME/CHDs (merged)/",
+			"sync": false,
+			"local_path": "arcade"
+		},
+		{
 			"remote_path": "MAME/ROMs (merged)/",
+			"sync": false,
+			"local_path": "arcade"
+		},
+		{
+			"remote_path": "MAME/Software List ROMs (merged)/",
 			"sync": false,
 			"local_path": "arcade"
 		},
