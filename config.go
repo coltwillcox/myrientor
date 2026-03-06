@@ -78,16 +78,17 @@ func (r *RemoteConfig) SyncableCount() int {
 	return count
 }
 
-func (r *RemoteConfig) FindByRemotePath(remotePath string) *Device {
+// FindAllByPath returns all syncable devices whose LocalPath or RemotePath
+// matches the given value.
+func (r *RemoteConfig) FindAllByPath(path string) []Device {
 	if r == nil {
 		return nil
 	}
-
-	for i := range r.Devices {
-		if r.Devices[i].RemotePath == remotePath {
-			return &r.Devices[i]
+	var matches []Device
+	for _, device := range r.Devices {
+		if device.ShouldSync() && (device.LocalPath == path || device.RemotePath == path) {
+			matches = append(matches, device)
 		}
 	}
-
-	return nil
+	return matches
 }

@@ -58,17 +58,11 @@ func main() {
 	// Build list of devices to sync
 	var devicesToSync []Device
 	if *syncFlag != "" {
-		// Find specific device by local_path
-		device := remoteConfig.FindByRemotePath(*syncFlag)
-		if device == nil {
-			fmt.Fprintf(os.Stderr, "%s✗ Device not found: %s%s\n", colorRed, *syncFlag, colorReset)
+		devicesToSync = remoteConfig.FindAllByPath(*syncFlag)
+		if len(devicesToSync) == 0 {
+			fmt.Fprintf(os.Stderr, "%s✗ No syncable device found matching: %s%s\n", colorRed, *syncFlag, colorReset)
 			os.Exit(1)
 		}
-		if !device.ShouldSync() {
-			fmt.Fprintf(os.Stderr, "%s✗ Device is not syncable: %s%s\n", colorRed, *syncFlag, colorReset)
-			os.Exit(1)
-		}
-		devicesToSync = append(devicesToSync, *device)
 	} else {
 		// Sync all enabled devices
 		for _, device := range remoteConfig.Devices {

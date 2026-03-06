@@ -451,17 +451,6 @@ func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, err
 	// Check if local file exists
 	localInfo, err := os.Stat(localPath)
 	if os.IsNotExist(err) {
-		// File doesn't exist, get remote size
-		resp, err := client.Head(remoteURL)
-		if err != nil {
-			return false, err
-		}
-		defer resp.Body.Close()
-
-		if resp.StatusCode != http.StatusOK {
-			return false, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
-		}
-
 		return true, nil
 	}
 	if err != nil {
