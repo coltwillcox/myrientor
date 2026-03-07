@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 // Version info - injected at build time via ldflags
@@ -77,21 +78,55 @@ func main() {
 	fmt.Printf("%s%sStarting sync of %d device(s) from %s%s\n", colorBold, colorCyan, totalDevices, remoteConfig.BaseURL, colorReset)
 	fmt.Println(separatorDouble())
 
+	overallStart := time.Now()
+	var total SyncSummary
+	devicesSynced := 0
+
 	for i, device := range devicesToSync {
 		fmt.Printf("\n%s\n", devicePanel(i+1, totalDevices, device.RemotePath))
 
-		drained, err := syncDirectory(device, remoteConfig.BaseURL, maxConcurrent, errLog)
+		drained, summary, err := syncDirectory(device, remoteConfig.BaseURL, maxConcurrent, errLog)
 		if err != nil {
 			localDir := filepath.Join(device.LocalPath, device.RemotePath)
 			errLog.Log("%s: error syncing: %v", localDir, err)
 		}
+		devicesSynced++
+		total.FilesDownloaded += summary.FilesDownloaded
+		total.FilesSkipped += summary.FilesSkipped
+		total.FilesDeleted += summary.FilesDeleted
+		total.FilesErrors += summary.FilesErrors
+		total.BytesDownloaded += summary.BytesDownloaded
+		total.BytesSkipped += summary.BytesSkipped
+
 		fmt.Println(separatorSingle())
 		if drained {
 			break
 		}
 	}
 
-	fmt.Println("\n" + separatorDouble())
+	elapsed := time.Since(overallStart)
+	totalBytes := total.BytesDownloaded + total.BytesSkipped
+
+	fmt.Println()
+	fmt.Println(panelTopLabeled("SUMMARY"))
+	fmt.Println(panelLine(fmt.Sprintf("%sFiles:%s    %s%d downloaded%s  %d skipped  %s%d deleted%s  %s%d errors%s",
+		colorBold, colorReset,
+		colorGreen, total.FilesDownloaded, colorReset,
+		total.FilesSkipped,
+		colorYellow, total.FilesDeleted, colorReset,
+		colorRed, total.FilesErrors, colorReset)))
+	fmt.Println(panelLine(fmt.Sprintf("%sTransfer:%s %s%s downloaded%s  %s skipped  %s total",
+		colorBold, colorReset,
+		colorCyan, formatBytes(total.BytesDownloaded), colorReset,
+		formatBytes(total.BytesSkipped),
+		formatBytes(totalBytes))))
+	fmt.Println(panelLine(fmt.Sprintf("%sTime:%s     %s%s%s",
+		colorBold, colorReset, colorBlue, formatDuration(elapsed), colorReset)))
+	fmt.Println(panelLine(fmt.Sprintf("%sDevices:%s  %d synced",
+		colorBold, colorReset, devicesSynced)))
+	fmt.Print(panelBottom())
+	fmt.Println()
+	fmt.Println()
 
 	// Display error summary
 	errorCount := errLog.Count()

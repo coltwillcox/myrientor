@@ -26,7 +26,7 @@ type FileInfo struct {
 	SubDir string // relative subdirectory using / separator, URL-decoded (empty for root)
 }
 
-func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *ErrorLogger) (drained bool, err error) {
+func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *ErrorLogger) (drained bool, summary SyncSummary, err error) {
 	stats := NewSyncStats(maxConcurrent)
 
 	// Client for quick operations (HEAD requests, directory listings)
@@ -67,13 +67,13 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 	})
 	fmt.Printf("\r\033[K") // clear scanning line
 	if err != nil {
-		return false, fmt.Errorf("failed to get directory listing: %w", err)
+		return false, SyncSummary{}, fmt.Errorf("failed to get directory listing: %w", err)
 	}
 
 	// Local directory mirrors the remote path structure under local_path.
 	localDir := filepath.Join(device.LocalPath, device.RemotePath)
 	if err := os.MkdirAll(localDir, 0755); err != nil {
-		return false, fmt.Errorf("failed to create local directory: %w", err)
+		return false, SyncSummary{}, fmt.Errorf("failed to create local directory: %w", err)
 	}
 
 	// Build sync list and remote file set for cleanup.
@@ -249,7 +249,7 @@ func syncDirectory(device Device, baseURL string, maxConcurrent int, errLog *Err
 	fmt.Printf("\n%s✓ Sync complete%s\n", colorGreen, colorReset)
 	fmt.Println()
 
-	return draining, nil
+	return draining, stats.Summary(), nil
 }
 
 func cleanupObsoleteFiles(localDir string, remoteFiles map[string]bool, stats *SyncStats, errLog *ErrorLogger) error {

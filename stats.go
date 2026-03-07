@@ -34,6 +34,28 @@ type SyncStats struct {
 	draining                bool            // True when drain hotkey was pressed
 }
 
+type SyncSummary struct {
+	FilesDownloaded int
+	FilesSkipped    int
+	FilesDeleted    int
+	FilesErrors     int
+	BytesDownloaded int64
+	BytesSkipped    int64
+}
+
+func (s *SyncStats) Summary() SyncSummary {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return SyncSummary{
+		FilesDownloaded: s.filesDownloaded,
+		FilesSkipped:    s.filesSkipped,
+		FilesDeleted:    s.filesDeleted,
+		FilesErrors:     s.filesErrors,
+		BytesDownloaded: s.bytesActuallyDownloaded,
+		BytesSkipped:    s.bytesDownloaded - s.bytesActuallyDownloaded,
+	}
+}
+
 func NewSyncStats(maxConcurrent int) *SyncStats {
 	return &SyncStats{
 		startTime:        time.Now(),

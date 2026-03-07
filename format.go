@@ -86,14 +86,7 @@ func fitInTerminal(name string, overhead int) string {
 
 func devicePanel(index, total int, path string) string {
 	tw := terminalWidth()
-	counter := fmt.Sprintf(" %d/%d ", index, total)
-
-	// ┌──[ N/M ]──...──┐
-	topPrefixCols := 4 + len(counter) + 1 // ┌──[ + counter + ]
-	topDashes := max(
-		// -1 for ┐
-		tw-topPrefixCols-1, 0)
-	top := colorCyan + "┌──[" + colorBold + counter + colorReset + colorCyan + "]" + strings.Repeat("─", topDashes) + "┐" + colorReset
+	top := panelTopLabeled(fmt.Sprintf("%d/%d", index, total))
 
 	// │  Syncing: <path>   │
 	const syncPrefix = "  Syncing: "
@@ -132,6 +125,13 @@ func stripANSI(s string) string {
 		}
 	}
 	return b.String()
+}
+
+func panelTopLabeled(label string) string {
+	tw := terminalWidth()
+	labelCols := len([]rune(label))
+	dashes := max(tw-8-labelCols, 0)
+	return colorCyan + "┌──[" + colorBold + " " + label + " " + colorReset + colorCyan + "]" + strings.Repeat("─", dashes) + "┐" + colorReset
 }
 
 func panelTop() string {
