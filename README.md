@@ -199,7 +199,13 @@ Starting sync of 2 device(s) from https://myrient.erista.me/files/
 ✓ Sync complete
 ──────────────────────────────────────────────────────────────────────────
 
-══════════════════════════════════════════════════════════════════════════
+┌──[ SUMMARY ]───────────────────────────────────────────────────────────┐
+│  Files:    42 downloaded  1395 skipped  3 deleted  0 errors            │
+│  Transfer: 892.45 MiB downloaded  1.20 GiB skipped  2.09 GiB total     │
+│  Time:     5m 23s                                                      │
+│  Devices:  2 synced                                                    │
+└────────────────────────────────────────────────────────────────────────┘
+
 ✓ Sync(s) completed
 ```
 
@@ -297,7 +303,7 @@ EXIT    0
 ╚═══════════════════════════════════════╝
 <br>
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░  MYRIENTOR v0.12.1 - SYNC YOUR MEMORIES FROM THE GRID  ░
+░  MYRIENTOR v0.13.0 - SYNC YOUR MEMORIES FROM THE GRID  ░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 </pre>
 </div>

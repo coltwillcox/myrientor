@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.0] - 2026-03-07
+
+### Added
+- Final summary panel printed after all devices finish, showing total files downloaded/skipped/deleted/errors, bytes downloaded/skipped/total, elapsed time, and devices synced
+
+### Changed
+- `devicePanel` now reuses `panelTopLabeled` instead of duplicating the border logic
+
 ## [0.12.1] - 2026-03-06
 
 ### Fixed
