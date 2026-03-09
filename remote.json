@@ -19,17 +19,17 @@
 		{
 			"remote_path": "No-Intro/ACT - Apricot PC Xi/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/APF - Imagination Machine/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/APF - MP-1000/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Acorn - Archimedes/",
@@ -39,17 +39,17 @@
 		{
 			"remote_path": "No-Intro/Acorn - Atom (Tapes) (Bitstream)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Acorn - Risc PC (Flux)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Acorn RISC OS - Flash Media (Misc)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Amstrad - CPC (Flux)/",
@@ -64,12 +64,12 @@
 		{
 			"remote_path": "No-Intro/Analogue - Analogue Pocket/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Apple - I (Tapes)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Apple - II (A2R)/",
@@ -89,12 +89,12 @@
 		{
 			"remote_path": "No-Intro/Apple - II Plus (Flux)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Apple - II Plus (WOZ)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Apple - IIGS (A2R)/",
@@ -109,17 +109,17 @@
 		{
 			"remote_path": "No-Intro/Apple - IIe (A2R)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Apple - IIe (Kryoflux)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Apple - IIe (WOZ)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Apple - Macintosh (A2R)/",
@@ -159,7 +159,7 @@
 		{
 			"remote_path": "No-Intro/Apple-Bandai - Pippin (Floppies)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Arcade - PC-based/",
@@ -174,17 +174,17 @@
 		{
 			"remote_path": "No-Intro/Atari - 8-bit Family/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Atari - 8-bit Family (Aftermarket)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Atari - 8-bit Family (Kryoflux)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Atari - Atari 2600/",
@@ -324,12 +324,12 @@
 		{
 			"remote_path": "No-Intro/Audio CD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/BD-Video/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Bally - Astrocade/",
@@ -349,12 +349,12 @@
 		{
 			"remote_path": "No-Intro/Bandai - Design Master Denshi Mangajuku/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Bandai - Gundam RX-78/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Bandai - WonderSwan/",
@@ -374,22 +374,22 @@
 		{
 			"remote_path": "No-Intro/Bandai Little Jammer (BIN)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Bandai Little Jammer Pro (BIN)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Benesse - Pocket Challenge V2/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Benesse - Pocket Challenge W/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Bit Corporation - Gamate/",
@@ -399,27 +399,27 @@
 		{
 			"remote_path": "No-Intro/Blaze Entertainment - Evercade/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/CD+G/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/CD-ROM/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Casio - Loopy (BigEndian)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Casio - Loopy (LittleEndian)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Casio - PV-1000/",
@@ -484,22 +484,22 @@
 		{
 			"remote_path": "No-Intro/DVD-Audio/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/DVD-ROM/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/DVD-Video/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Digital Media Cartridge - Firecore/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Emerson - Arcadia 2001/",
@@ -509,17 +509,17 @@
 		{
 			"remote_path": "No-Intro/Enhanced CD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Entex - Adventure Vision/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Epoch - Game Pocket Computer/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Epoch - Super Cassette Vision/",
@@ -569,12 +569,12 @@
 		{
 			"remote_path": "No-Intro/Fujitsu - FMR50 (Flux)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Fukutake Publishing - StudyBox/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Funtech - Super Acan/",
@@ -589,37 +589,37 @@
 		{
 			"remote_path": "No-Intro/GamePark - GP2X/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/GamePark - GP32/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Google - Android (Amazon Appstore) (APK)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Google - Android (Google Play Store) (APK)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Google - Android (Misc) (APK)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Google - Android (Samsung Galaxy Apps) (APK)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/HD DVD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Hartung - Game Master/",
@@ -629,7 +629,7 @@
 		{
 			"remote_path": "No-Intro/Hitachi - S1 (Waveform)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/IBM - PC and Compatibles (Digital) (Amazon)/",
@@ -824,37 +824,37 @@
 		{
 			"remote_path": "No-Intro/Interton - VC 4000/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Konami - Picno/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/LeapFrog - Explorer/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/LeapFrog - LeapPad/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/LeapFrog - Leapster Learning Game System/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Luxor - ABC 800 (Flux)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/MP3 CD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Magnavox - Odyssey 2/",
@@ -909,7 +909,7 @@
 		{
 			"remote_path": "No-Intro/Milton-Bradley - Omni (Waveform)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Mobile - J2ME/",
@@ -929,12 +929,12 @@
 		{
 			"remote_path": "No-Intro/Mobile - Pocket PC/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Mobile - Pocket PC (Digital)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Mobile - Symbian/",
@@ -944,7 +944,7 @@
 		{
 			"remote_path": "No-Intro/MovieCD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/NEC - PC Engine - TurboGrafx-16/",
@@ -1009,12 +1009,12 @@
 		{
 			"remote_path": "No-Intro/Nichibutsu - My Vision/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nichibutsu - My Vision (Mame)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Family BASIC (Tapes)/",
@@ -1039,7 +1039,7 @@
 		{
 			"remote_path": "No-Intro/Nintendo - Family Computer Network System/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Game & Watch/",
@@ -1129,32 +1129,32 @@
 		{
 			"remote_path": "No-Intro/Nintendo - Kiosk Video Compact Flash (CardImage)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Kiosk Video Compact Flash (Extracted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Misc/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - New Nintendo 3DS (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - New Nintendo 3DS (Digital) (Deprecated)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - New Nintendo 3DS (Encrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo 3DS (Decrypted)/",
@@ -1274,27 +1274,27 @@
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo DSi (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo DSi (Digital)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo DSi (Digital) (CDN) (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo DSi (Digital) (CDN) (Encrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo DSi (Encrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo Entertainment System (Headered)/",
@@ -1339,12 +1339,12 @@
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo Music (M4A)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Nintendo Music (Tracks)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Pokemon Mini/",
@@ -1359,7 +1359,7 @@
 		{
 			"remote_path": "No-Intro/Nintendo - SDKs/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Satellaview/",
@@ -1409,7 +1409,7 @@
 		{
 			"remote_path": "No-Intro/Nintendo - Wallpapers/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nintendo - Wii (Development Kit Hard Drives)/",
@@ -1449,7 +1449,7 @@
 		{
 			"remote_path": "No-Intro/Nintendo - amiibo/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Nokia - N-Gage (WIP)/",
@@ -1459,7 +1459,7 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Apple-Bandai - Pippin/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Atari - Atari Jaguar CD/",
@@ -1469,12 +1469,12 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Audio CD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - BD-Video/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Capcom - Play System III/",
@@ -1484,22 +1484,22 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Commodore - Amiga CD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - DVD-Video/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - FuRyu & Omron - Purikura/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Hasbro - iON Educational Gaming System/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - IBM - PC Compatible (Discs)/",
@@ -1514,22 +1514,22 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Konami - M2/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Konami - Python 2/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Merit Megatouch/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Microsoft - Pocket PC/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Microsoft - Xbox/",
@@ -1559,7 +1559,7 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Namco - Purikura/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Nintendo - Nintendo GameCube/",
@@ -1604,12 +1604,12 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Playmaji - Polymega/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Sega - ALLS/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Sega - Dreamcast/",
@@ -1629,22 +1629,22 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Sega - Nu/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Sega - Nu 1.1/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Sega - Nu 2/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Sega - Nu SX/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Sega - Sega Mega CD + Sega CD/",
@@ -1664,12 +1664,12 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Sega NAOMI Satellite Terminal PC/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Sharp - Zaurus/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - Sony - PlayStation/",
@@ -1694,62 +1694,62 @@
 		{
 			"remote_path": "No-Intro/Non-Redump - Sony Electronic Book/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - VM Labs - NUON/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Non-Redump - ZAPiT Games - Game Wave Family Entertainment System/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Ouya - Ouya/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Panic - Playdate (Catalog) (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Panic - Playdate (Catalog) (Encrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Panic - Playdate (Various)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Panic - Playdate (itch.io)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Philips - Videopac+/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Project EGG/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/RCA - Studio II/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/SACD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/SNK - NeoGeo Pocket/",
@@ -1764,7 +1764,7 @@
 		{
 			"remote_path": "No-Intro/Sanyo - MBC-550 (Flux)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Sega - 32X/",
@@ -1779,7 +1779,7 @@
 		{
 			"remote_path": "No-Intro/Sega - Beena/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Sega - Dreamcast (Development Kit Hard Drives)/",
@@ -1834,7 +1834,7 @@
 		{
 			"remote_path": "No-Intro/Sega - PICO/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Sega - SG-1000 - SC-3000/",
@@ -1849,22 +1849,22 @@
 		{
 			"remote_path": "No-Intro/Seta - Aleck64 (BigEndian)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Seta - Aleck64 (ByteSwapped)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Sharp - MZ-2200 (Waveform)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Sharp - MZ-700 (Waveform)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Sharp - X1 (Waveform)/",
@@ -1919,7 +1919,7 @@
 		{
 			"remote_path": "No-Intro/Sony - PlayStation Mobile (PSN)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Sony - PlayStation Portable (PSN) (Decrypted)/",
@@ -1954,12 +1954,12 @@
 		{
 			"remote_path": "No-Intro/Source Code - Apple - II/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Source Code - Apple - IIGS/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Source Code - Arcade/",
@@ -1969,7 +1969,7 @@
 		{
 			"remote_path": "No-Intro/Source Code - Atari - 8-bit Family/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Source Code - Atari - Atari 2600 (Aftermarket)/",
@@ -2024,7 +2024,7 @@
 		{
 			"remote_path": "No-Intro/Source Code - Panasonic - M2/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Source Code - Sega - DreamCast/",
@@ -2034,12 +2034,12 @@
 		{
 			"remote_path": "No-Intro/Source Code - VM Labs - NUON/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Source Code - Various/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/TEMP IBM - PC and Compatibles (Digital) (Games for Windows Marketplace)/",
@@ -2049,7 +2049,7 @@
 		{
 			"remote_path": "No-Intro/TeleNova - Compis (Flux)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Texas Instruments - TI-99-4A (A2R)/",
@@ -2064,27 +2064,27 @@
 		{
 			"remote_path": "No-Intro/Tiger - Gizmondo/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Toshiba - Pasopia (BIN)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Toshiba - Pasopia (WAV)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Toshiba - Visicom/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/UHD-BD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Microsoft - Xbox 360 (Title Updates)/",
@@ -2119,7 +2119,7 @@
 		{
 			"remote_path": "No-Intro/Unofficial - Obscure Gamers/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Sony - PlayStation 3 (BD-Video Extras)/",
@@ -2184,57 +2184,57 @@
 		{
 			"remote_path": "No-Intro/Unofficial - Super Mario Maker Courses (WARC)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game Documents (PDF)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game Magazine Scans (CBZ)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game Magazine Scans (PDF)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game Magazine Scans (RAW)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game Manual Scans (JPEG)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game OSTs (Digital) (RAW)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game OSTs (Hardware Recordings)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game OSTs (Playbutton)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Unofficial - Video Game Scans (RAW)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/VM Labs - NUON (Digital)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/VTech - CreatiVision/",
@@ -2249,12 +2249,12 @@
 		{
 			"remote_path": "No-Intro/Various - itch.io/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Video CD/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Watara - Supervision/",
@@ -2274,7 +2274,7 @@
 		{
 			"remote_path": "No-Intro/Web - Humble Play/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Welback - Mega Duck/",
@@ -2289,22 +2289,447 @@
 		{
 			"remote_path": "No-Intro/Yamaha - Copera/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/Zeebo - Zeebo/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/iQue - iQue (CDN)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
 		},
 		{
 			"remote_path": "No-Intro/iQue - iQue (Decrypted)/",
 			"sync": false,
-			"local_path": ""
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Acorn - Archimedes/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Apple - Macintosh/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Apple - Macintosh - SBI Subchannels/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Hasbro - VideoNow/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Hasbro - VideoNow Color/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Hasbro - VideoNow Jr/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Hasbro - VideoNow XP/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Konami - FireBeat/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Konami - M2/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Konami - System 573/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Konami - System GV/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Konami - e-Amusement/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Namco - Sega - Nintendo - Triforce/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Namco - Sega - Nintendo - Triforce - GDI Files/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Namco - System 246/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - Chihiro/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - Chihiro - GDI Files/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - Lindbergh/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - Naomi/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - Naomi - GDI Files/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - Naomi 2/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - Naomi 2 - GDI Files/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - RingEdge/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Arcade - Sega - RingEdge 2/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Atari - Jaguar CD Interactive Multimedia System/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Audio CD/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Audio CD - Spillover Tracks/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/BD-Video/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Bandai - Pippin/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Bandai - Playdia Quick Interactive System/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Commodore - Amiga CD/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Commodore - Amiga CD32/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Commodore - Amiga CDTV/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/DVD-Video/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Fujitsu - FM-Towns/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/HD DVD-Video/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/IBM - PC compatible/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/IBM - PC compatible - SBI Subchannels/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Incredible Technologies - Eagle/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Mattel - Fisher-Price iXL/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Mattel - HyperScan/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Memorex - Visual Information System/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Microsoft - Xbox/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Microsoft - Xbox - BIOS Images (DoM Version)/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Microsoft - Xbox 360/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/NEC - PC Engine CD & TurboGrafx CD/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/NEC - PC-88 series/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/NEC - PC-98 series/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/NEC - PC-FX & PC-FXGA/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Navisoft - Naviken 2.1/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Nintendo - GameCube - BIOS Images (DoM Version)/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Nintendo - GameCube - NKit RVZ [zstd-19-128k]/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Nintendo - Wii - NKit RVZ [zstd-19-128k]/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Nintendo - Wii U - Disc Keys/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Nintendo - Wii U - WUX/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Palm/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Panasonic - 3DO Interactive Multiplayer/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Panasonic - M2/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Philips - CD-i/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Photo CD/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/PlayStation GameShark Updates/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Pocket PC/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/SNK - Neo Geo CD/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sega - Dreamcast/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sega - Dreamcast - GDI Files/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sega - Mega CD & Sega CD/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sega - Prologue 21/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sega - Saturn/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sharp - X68000/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation - BIOS Images (DoM Version)/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation - SBI Subchannels/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation 2/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation 2 - BIOS Images/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation 3/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation 3 - Disc Keys/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation 3 - Disc Keys TXT/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Sony - PlayStation Portable/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/TAB-Austria - Quizard/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Tomy - Kiss-Site/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/VM Labs - NUON/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/VTech - V.Flash & V.Smile Pro/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/Video CD/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/ZAPiT Games - Game Wave Family Entertainment System/",
+			"sync": false,
+			"local_path": "myrient"
+		},
+		{
+			"remote_path": "Redump/funworld - Photo Play/",
+			"sync": false,
+			"local_path": "myrient"
 		}
 	]
 }
