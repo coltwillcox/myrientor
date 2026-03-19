@@ -304,19 +304,34 @@ func getDirectoryListingRec(client *http.Client, dirURL, subDir string, onDir fu
 	if onDir != nil {
 		onDir(subDir)
 	}
-	resp, err := client.Get(dirURL)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
+	var body []byte
+	var lastErr error
+	for attempt := 0; attempt <= downloadMaxRetries; attempt++ {
+		var resp *http.Response
+		resp, lastErr = client.Get(dirURL)
+		if lastErr != nil {
+			if attempt == downloadMaxRetries {
+				return nil, lastErr
+			}
+			continue
+		}
+		if resp.StatusCode != http.StatusOK {
+			resp.Body.Close()
+			lastErr = fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
+			if attempt == downloadMaxRetries {
+				return nil, lastErr
+			}
+			continue
+		}
+		body, lastErr = io.ReadAll(resp.Body)
+		resp.Body.Close()
+		if lastErr == nil {
+			break
+		}
+		if attempt == downloadMaxRetries {
+			return nil, lastErr
+		}
 	}
 
 	var files []FileInfo
@@ -453,15 +468,27 @@ func shouldDownload(client *http.Client, remoteURL, localPath string) (bool, err
 	}
 
 	// Get remote file info
-	resp, err := client.Head(remoteURL)
-	if err != nil {
-		return false, err
+	var resp *http.Response
+	var lastErr error
+	for attempt := 0; attempt <= downloadMaxRetries; attempt++ {
+		resp, lastErr = client.Head(remoteURL)
+		if lastErr != nil {
+			if attempt == downloadMaxRetries {
+				return false, lastErr
+			}
+			continue
+		}
+		if resp.StatusCode != http.StatusOK {
+			resp.Body.Close()
+			lastErr = fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
+			if attempt == downloadMaxRetries {
+				return false, lastErr
+			}
+			continue
+		}
+		break
 	}
 	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return false, fmt.Errorf("HTTP %d: %s", resp.StatusCode, resp.Status)
-	}
 
 	// Compare sizes
 	remoteSize := resp.ContentLength
